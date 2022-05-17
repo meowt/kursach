@@ -29,6 +29,7 @@ header {
     height: 55px;
     z-index: 1000;
     box-shadow:0 0 9px black;
+    overflow: unset;
 }
 .nav_links {
     list-style: none;
@@ -42,9 +43,11 @@ header {
     color: #5A5A5A;
     font-family: Montserrat, sans-serif;
     margin-left: 6px;
+    text-decoration: none;
 }
 .nav_links li a:hover {
     text-decoration: underline;
+    color: #000000;
 }
 #sign_up {
     font-weight: bolder;
@@ -147,8 +150,43 @@ header {
 }
 .object{
     width: 400px;
-
 }
 .info_img{
     height: 32vh;
+}
+
+.btn-primary {
+    color: #5A5A5A;
+    background-color: #c0c0c0;
+    border-color: transparent;
+
+    margin: 5px;
+}
+.btn-primary:hover {
+    color: #fff;
+    background-color: #6e6e6e;
+    border-color: #595959;
+}
+.btn-check:focus + .btn-primary, .btn-primary:focus {
+    color: #fff;
+    background-color: #6e6e6e;
+    border-color: #595959;
+    box-shadow: 0 0 0 0.25rem rgba(86, 86, 86, 0.5);
+}
+.btn-check:checked + .btn-primary, .btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active, .show > .btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #595959;
+    border-color: #595959;
+}
+.btn-check:checked + .btn-primary:focus, .btn-check:active + .btn-primary:focus, .btn-primary:active:focus, .btn-primary.active:focus, .show > .btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.25rem rgba(86, 86, 86, 0.5);
+}
+.btn-primary:disabled, .btn-primary.disabled {
+    color: #fff;
+    background-color: #595959;
+    border-color: #595959;
+}
+.btn-close:focus {
+    box-shadow: 0 0 0 0;
+    opacity: 1;
 }

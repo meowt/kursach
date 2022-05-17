@@ -13,6 +13,5 @@ func main() {
 		fmt.Println(e.Error())
 		return
 	}
-	//starter()
-	httpHandle()
+	server()
 }

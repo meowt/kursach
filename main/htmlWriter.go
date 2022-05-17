@@ -1,29 +1,27 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 var router *gin.Engine
 
-func httpHandle() {
-	http.HandleFunc("/", homePage)
-	http.ListenAndServe(":9090", nil)
-}
-
-func homePage(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		http.NotFound(w, r)
-		return
-	}
+func server() {
 	router = gin.Default()
-	router.LoadHTMLFiles(cfg.Html + "index.html")
-	//router.Static("/assets", cfg.Assets)
+	router.LoadHTMLGlob(cfg.Html + "*")
+	router.Static("/assets", cfg.Assets)
 	router.GET("/", index)
-	router.Run(cfg.ServerHost + ":" + cfg.ServerPort)
+	e := router.Run(cfg.ServerHost + ":" + cfg.ServerPort)
+	if e == nil {
+		fmt.Println(e.Error())
+		panic("Не удалось запустить сервер")
+	}
 }
 
 func index(c *gin.Context) {
-	c.HTML(200, "index.html", nil)
+	c.HTML(http.StatusOK, "header.html", nil)
+	c.HTML(http.StatusOK, "indexBody.html", nil)
+	c.HTML(http.StatusOK, "footer.html", nil)
 }

@@ -3,22 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <title>NYMPH</title>
+  <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
 
-  <link href="css/bootstrap.css" rel="stylesheet">
-  <link href="lib/slick.css" rel="stylesheet">
-  <link href="lib/slick-theme.css" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet">
+  <link href="/assets/css/bootstrap.css" rel="stylesheet">
+  <link href="/assets/lib/slick.css" rel="stylesheet">
+  <link href="/assets/lib/slick-theme.css" rel="stylesheet">
+  <link href="/assets/css/style.css" rel="stylesheet">
+  <link href="/assets/css/modalWindow.css" rel="stylesheet">
 
-  <script src="lib/jquery-3.6.0.min.js"></script>
-  <script src="lib/slick.min.js"></script>
-  <script src="js/main.js"></script>
+  <script src="/assets/lib/jquery-3.6.0.min.js"></script>
+  <script src="/assets/lib/slick.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/modalWindowScript.js"></script>
 </head>
 <body>
-
 <header class="header">
-  <a href="index.html" id="main_link"><img id="logo" src="img/logo.png" alt=""></a>
+  <a href="#" id="main_link"><img id="logo" src="/assets/img/logo.png" alt=""></a>
   <ul class="nav_links">
-    <li><a href="#" id="log_in">Log in</a> </li>
-    <li><a href="#" id="sign_up">Sign up</a></li>
+    <li><a onclick="openModal('#logModalWindow')" href="#" id="log_in">Log in</a> </li>
+    <li><a onclick="openModal('#regModalWindow')" href="#" id="sign_up">Sign up</a></li>
   </ul>
 </header>
+
+<div class="modalWindowContainer" id="logModalWindow">
+  <div class="modalWindow">
+    <button onclick="closeModal('#logModalWindow')" type="button" class="btn-close js-modal-close" aria-label="Close"></button>
+    <h1 class="modalWindowHeading">Login</h1>
+    <form method="post" action="" class="loginForm">
+      <div class="form-group">
+        <label for="log_email"></label>
+        <input class="form-control" type="email" id="log_email" placeholder="Email" name="email">
+
+        <label for="log_pwd"></label>
+        <input class="form-control" type="password" id="log_pwd" placeholder="Password" name="pwd">
+        <a href="#" id="log_forgot" class="forgot">Forgot password?</a>
+      </div>
+      <input class="btn btn-primary formSubmit" type="submit" id="loginSubmit" name="submit" value="Login"><br>
+    </form>
+    <p>New to Nymph? <a href="#" onclick="openModal('#regModalWindow')">Registered now</a>.</p>
+  </div>
+</div>
+
+<div class="modalWindowContainer" id="regModalWindow">
+  <div class="modalWindow">
+    <button onclick="closeModal('#regModalWindow')" type="button" class="btn-close js-modal-close" aria-label="Close"></button>
+    <h1 class="modalWindowHeading">Register</h1>
+    <form method="post" action="" class="loginForm">
+      <div class="form-group">
+        <label for="reg_email"></label>
+        <input class="form-control" type="email" required id="reg_email" placeholder="Email" name="email">
+
+        <label for="reg_pwd"></label>
+        <input class="form-control" type="password" id="reg_pwd" placeholder="Password" name="pwd">
+        <label for="reg_pwd_conf"></label>
+        <input class="form-control" type="password" id="reg_pwd_conf" placeholder="Confirm your password" name="pwd">
+        <br>
+      </div>
+      <input class="btn btn-primary formSubmit" type="submit" id="regSubmit" name="submit" value="Register"><br>
+    </form>
+    <p>Have an account? <a href="#" onclick="openModal('#logModalWindow')">Log in now</a>.</p>
+  </div>
+</div>
+
+<div class="modalWindowContainer" id="successModalWindow">
+  <div class="modalWindow">
+    <button onclick="closeModal('#successModalWindow')" type="button" class="btn-close js-modal-close" aria-label="Close"></button>
+    <h1 class="modalWindowHeading">Register</h1>
+  </div>
+</div>

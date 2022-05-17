@@ -19,7 +19,8 @@ type settings struct {
 }
 
 type user struct {
-	Name, Mail string
+	Name string
+	Mail string
 }
 
 var cfg settings
