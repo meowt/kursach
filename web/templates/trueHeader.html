@@ -1,0 +1,27 @@
+{{ define "trueHeader.html" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ .title }}</title>
+    <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
+
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/assets/lib/slick.css" rel="stylesheet">
+    <link href="/assets/lib/slick-theme.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+
+    <script src="/assets/lib/jquery-3.6.0.min.js"></script>
+    <script src="/assets/lib/slick.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+</head>
+</head>
+<body>
+
+<header class="header">
+    <a href="#" id="main_link"><img id="logo" src="/assets/img/logo.png" alt=""></a>
+    <ul class="nav_links">
+        <li><a onclick="" href="#" id="">{{ .Username }}</a></li>
+    </ul>
+</header>
+{{ end }}

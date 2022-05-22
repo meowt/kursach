@@ -19,12 +19,17 @@ type settings struct {
 }
 
 type user struct {
-	Name string
-	Mail string
+	ID       int    `json:"id"`
+	Username string `json:"username"`
+	Email    string `json:"email"`
+}
+
+type loginStruct struct {
+	email, password, submit string
 }
 
 var cfg settings
-var currentUser user
+var CurrentUser user
 
 func init() {
 	file, e := os.Open("main/settings.cfg")

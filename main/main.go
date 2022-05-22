@@ -7,8 +7,8 @@ import (
 )
 
 func main() {
-
 	e := connect()
+	defer db.Close()
 	if e != nil {
 		fmt.Println(e.Error())
 		return

@@ -1,8 +1,9 @@
+{{ define "header.html" }}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>NYMPH</title>
+  <title>{{ .title }}</title>
   <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
 
   <link href="/assets/css/bootstrap.css" rel="stylesheet">
@@ -29,13 +30,13 @@
   <div class="modalWindow">
     <button onclick="closeModal('#logModalWindow')" type="button" class="btn-close js-modal-close" aria-label="Close"></button>
     <h1 class="modalWindowHeading">Login</h1>
-    <form method="post" action="" class="loginForm">
+    <form method="POST" action="/posts/login" class="loginForm">
       <div class="form-group">
         <label for="log_email"></label>
         <input class="form-control" type="email" id="log_email" placeholder="Email" name="email">
 
         <label for="log_pwd"></label>
-        <input class="form-control" type="password" id="log_pwd" placeholder="Password" name="pwd">
+        <input class="form-control" type="password" id="log_pwd" placeholder="Password" name="password">
         <a href="#" id="log_forgot" class="forgot">Forgot password?</a>
       </div>
       <input class="btn btn-primary formSubmit" type="submit" id="loginSubmit" name="submit" value="Login"><br>
@@ -48,15 +49,15 @@
   <div class="modalWindow">
     <button onclick="closeModal('#regModalWindow')" type="button" class="btn-close js-modal-close" aria-label="Close"></button>
     <h1 class="modalWindowHeading">Register</h1>
-    <form method="post" action="" class="loginForm">
+    <form method="POST" action="" class="loginForm">
       <div class="form-group">
         <label for="reg_email"></label>
         <input class="form-control" type="email" required id="reg_email" placeholder="Email" name="email">
 
         <label for="reg_pwd"></label>
-        <input class="form-control" type="password" id="reg_pwd" placeholder="Password" name="pwd">
+        <input class="form-control" type="password" id="reg_pwd" placeholder="Password" name="password">
         <label for="reg_pwd_conf"></label>
-        <input class="form-control" type="password" id="reg_pwd_conf" placeholder="Confirm your password" name="pwd">
+        <input class="form-control" type="password" id="reg_pwd_conf" placeholder="Confirm your password" name="password_conf">
         <br>
       </div>
       <input class="btn btn-primary formSubmit" type="submit" id="regSubmit" name="submit" value="Register"><br>
@@ -71,3 +72,4 @@
     <h1 class="modalWindowHeading">Register</h1>
   </div>
 </div>
+{{ end }}
