@@ -22,14 +22,10 @@ type user struct {
 	ID       int    `json:"id"`
 	Username string `json:"username"`
 	Email    string `json:"email"`
-}
-
-type loginStruct struct {
-	email, password, submit string
+	Password string `json:"password"`
 }
 
 var cfg settings
-var CurrentUser user
 
 func init() {
 	file, e := os.Open("main/settings.cfg")

@@ -17,16 +17,20 @@ func connect() error {
 	return nil
 }
 
-func dbRequestLogin(d string) (bool, user) {
+func dbRequestLogin(d struct{ email, password string }) (bool, user) {
 	var e error
-	var OneUser user
-	e = db.QueryRow(
-		"SELECT * FROM users WHERE email = '"+d+"';",
-	).Scan(&OneUser.ID, &OneUser.Username, &OneUser.Email)
+	var CurrentUser user
+	sqlQuery := "SELECT password FROM users WHERE email = '" + d.email + "';"
+	e = db.QueryRow(sqlQuery).Scan(&CurrentUser.Password)
 	if e != nil {
 		fmt.Println(e.Error())
-		panic("Не удалось отправить запрос к БД для авторизации")
+		return false, CurrentUser
+	}
+	if comparePassword(d.password, CurrentUser.Password) {
+		sqlQuery = "SELECT * FROM users WHERE email = '" + d.email + "';"
+		e = db.QueryRow(sqlQuery).Scan(&CurrentUser.ID, &CurrentUser.Username, &CurrentUser.Email, &CurrentUser.Password)
+		return true, CurrentUser
 	} else {
-		return true, OneUser
+		return false, CurrentUser
 	}
 }

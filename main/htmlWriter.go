@@ -37,7 +37,14 @@ func login(c *gin.Context) {
 		fmt.Println(e.Error())
 		panic("Не удалось распарсить форму авторизации")
 	}
-	LoginData := c.Request.FormValue("email")
+	var LoginData struct {
+		email, password string
+	}
+	LoginData.email = c.Request.FormValue("email")
+	LoginData.password = c.Request.FormValue("password")
+	if e != nil {
+		fmt.Println(e.Error())
+	}
 	res, data := dbRequestLogin(LoginData)
 	if res {
 		c.HTML(http.StatusOK, "trueHeader.html", gin.H{
