@@ -23,7 +23,6 @@ func dbRequestLogin(d struct{ email, password string }) (bool, user) {
 	sqlQuery := "SELECT password FROM users WHERE email = '" + d.email + "';"
 	e = db.QueryRow(sqlQuery).Scan(&CurrentUser.Password)
 	if e != nil {
-		fmt.Println(e.Error())
 		return false, CurrentUser
 	}
 	if comparePassword(d.password, CurrentUser.Password) {

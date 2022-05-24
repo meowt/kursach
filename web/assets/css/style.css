@@ -27,7 +27,7 @@ header {
     align-items: center;
     padding: 0 33px;
     height: 55px;
-    z-index: 1000;
+    z-index: 500;
     box-shadow:0 0 9px black;
     overflow: unset;
 }
@@ -189,4 +189,8 @@ header {
 .btn-close:focus {
     box-shadow: 0 0 0 0;
     opacity: 1;
+}
+.bodyContainer {
+    width: 100%;
+    transition-duration: 0.5s;
 }

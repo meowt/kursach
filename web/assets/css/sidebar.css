@@ -1,0 +1,59 @@
+header {
+    justify-content: space-between;
+}
+.navbar, .profbar {
+    z-index: 1000;
+    top: 55px;
+    position: fixed;
+    height: 100%;
+    background: #FFFFFF;
+    list-style: none;
+    text-decoration: none;
+    width: 150px;
+    display: flex;
+    align-items: flex-start;
+    transition-duration: 0.5s;
+}
+.navbar {
+    left: -150px;
+}
+.profbar {
+    right: -150px;
+}
+
+ul, li {
+    list-style: none;
+    padding: 0;
+}
+.navbar ul, .profbar ul {
+    width: 100%;
+}
+.navbar li:hover, .profbar li:hover {
+    background-color: #b9b9b9;
+}
+
+.navbar ul a, .profbar ul a {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    line-height: 50px;
+    color: #000000;
+    text-decoration: none;
+}
+.navbar ul a {
+    justify-content: flex-start;
+    padding-left: 20px;
+}
+.profbar ul a {
+    justify-content: flex-end;
+    padding-right: 20px;
+}
+#sidebar, #profbar {
+    display: none;
+}
+label #burger {
+    top: 50%;
+    position: absolute;
+    cursor: pointer;
+    transform: translate(-50%)
+}

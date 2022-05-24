@@ -7,6 +7,7 @@ import (
 )
 
 var router *gin.Engine
+var data user
 
 func server() {
 	router = gin.Default()
@@ -29,31 +30,37 @@ func index(c *gin.Context) {
 	c.HTML(http.StatusOK, "footer.html", nil)
 }
 
+func logged(c *gin.Context) {
+	c.HTML(http.StatusOK, "trueHeader.html", gin.H{
+		"username": data.Username,
+	})
+	c.HTML(http.StatusOK, "authIndexBody.html", nil)
+	c.HTML(http.StatusOK, "footer.html", nil)
+}
+
 func login(c *gin.Context) {
-	var CurrentUser user
 	var e error
+	//parsing POST form data
 	e = c.Request.ParseForm()
 	if e != nil {
 		fmt.Println(e.Error())
 		panic("Не удалось распарсить форму авторизации")
 	}
+	//creating struct from POST data
 	var LoginData struct {
 		email, password string
 	}
 	LoginData.email = c.Request.FormValue("email")
 	LoginData.password = c.Request.FormValue("password")
-	if e != nil {
-		fmt.Println(e.Error())
-	}
-	res, data := dbRequestLogin(LoginData)
+	//checking
+	var res bool
+	res, data = dbRequestLogin(LoginData)
 	if res {
-		c.HTML(http.StatusOK, "trueHeader.html", gin.H{
-			"Username": data.Username,
-		})
-		c.HTML(http.StatusOK, "lol.html", gin.H{
-			"CurrentUser": CurrentUser,
-		})
-		c.HTML(http.StatusOK, "footer.html", nil)
+		if isUrlFree(urls, data.Username) {
+			addUserToSlice(data.Username)
+			router.GET("/"+data.Username, logged)
+		}
+		c.Redirect(http.StatusMovedPermanently, "http://127.0.0.1:9090/"+data.Username)
 	} else {
 		c.Redirect(http.StatusMovedPermanently, "http://127.0.0.1:9090/")
 	}

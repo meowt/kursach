@@ -12,14 +12,11 @@
   <link href="/assets/css/style.css" rel="stylesheet">
   <link href="/assets/css/modalWindow.css" rel="stylesheet">
 
-  <script src="/assets/lib/jquery-3.6.0.min.js"></script>
-  <script src="/assets/lib/slick.min.js"></script>
-  <script src="/assets/js/main.js"></script>
   <script src="/assets/js/modalWindowScript.js"></script>
 </head>
 <body>
 <header class="header">
-  <a href="#" id="main_link"><img id="logo" src="/assets/img/logo.png" alt=""></a>
+  <a href="http://127.0.0.1:9090/" id="main_link"><img id="logo" src="/assets/img/logo.png" alt=""></a>
   <ul class="nav_links">
     <li><a onclick="openModal('#logModalWindow')" href="#" id="log_in">Log in</a> </li>
     <li><a onclick="openModal('#regModalWindow')" href="#" id="sign_up">Sign up</a></li>
@@ -30,7 +27,7 @@
   <div class="modalWindow">
     <button onclick="closeModal('#logModalWindow')" type="button" class="btn-close js-modal-close" aria-label="Close"></button>
     <h1 class="modalWindowHeading">Login</h1>
-    <form method="POST" action="/posts/login" class="loginForm">
+    <form method="POST" action="/posts/login" class="loginForm" id="login_form">
       <div class="form-group">
         <label for="log_email"></label>
         <input class="form-control" type="email" id="log_email" placeholder="Email" name="email">

@@ -3,25 +3,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ .title }}</title>
+    <title>{{ .username }}</title>
     <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
 
     <link href="/assets/css/bootstrap.css" rel="stylesheet">
     <link href="/assets/lib/slick.css" rel="stylesheet">
     <link href="/assets/lib/slick-theme.css" rel="stylesheet">
     <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="/assets/css/sidebar.css" rel="stylesheet">
+    <link href="/assets/css/header.css" rel="stylesheet">
 
-    <script src="/assets/lib/jquery-3.6.0.min.js"></script>
-    <script src="/assets/lib/slick.min.js"></script>
-    <script src="/assets/js/main.js"></script>
 </head>
 </head>
 <body>
 
 <header class="header">
-    <a href="#" id="main_link"><img id="logo" src="/assets/img/logo.png" alt=""></a>
+    <input type="checkbox" id="sidebar">
+    <label for="sidebar">
+        <a id="burger"><img src="/assets/img/burger.svg" title="Menu"></a>
+    </label>
+    <a href="http://127.0.0.1:9090/" id="main_link"><img id="logo" src="/assets/img/logo.png" alt=""></a>
+    <input type="checkbox" id="profbar">
     <ul class="nav_links">
-        <li><a onclick="" href="#" id="">{{ .Username }}</a></li>
+        <li><label for="profbar">
+            <a id="username">{{ .username }}</a>
+        </label></li>
     </ul>
 </header>
+<nav>
+    <div class="navbar">
+        <ul>
+            <li><a href="#"><img src="/assets/img/catalogue.svg" title="Menu">Catalogue</a></li>
+            <li><a href="#"><img src="/assets/img/library.svg" title="Menu">Library</a></li>
+
+        </ul>
+
+    </div>
+</nav>
+
+<div class="profbar">
+    <ul>
+        <li><a href="#">My page</a></li>
+        <li><a href="#">Upload theme</a></li>
+        <li><a href="#">Edit profile</a></li>
+        <li><a href="#">Exit</a></li>
+    </ul>
+</div>
+
 {{ end }}
