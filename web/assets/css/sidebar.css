@@ -52,7 +52,7 @@ ul, li {
     display: none;
 }
 label #burger {
-    top: 50%;
+    top: 30%;
     position: absolute;
     cursor: pointer;
     transform: translate(-50%)

@@ -28,17 +28,29 @@
     text-align: center;
 }
 
+.form-control {
+    margin-bottom: 5px;
+}
+
 .btn-close {
     position: absolute;
     top: 5%;
     right: 5%;
 }
-
+#passwordTooltip img {
+    height: 19px;
+}
+#passwordTooltip {
+    background: none;
+    border: none;
+    position: absolute;
+    transform: translate(-50%);
+    top: 45%;
+    right: 13%;
+    cursor: unset;
+}
 .loginForm {
     width: 60%;
-}
-.formSubmit {
-    width: 40%;
 }
 .modalWindow a {
     color: #969696;

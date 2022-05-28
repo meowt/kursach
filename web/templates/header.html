@@ -11,6 +11,8 @@
   <link href="/assets/lib/slick-theme.css" rel="stylesheet">
   <link href="/assets/css/style.css" rel="stylesheet">
   <link href="/assets/css/modalWindow.css" rel="stylesheet">
+  <link href="https://unpkg.com/microtip/microtip.css" rel="stylesheet">
+
 
   <script src="/assets/js/modalWindowScript.js"></script>
 </head>
@@ -18,55 +20,59 @@
 <header class="header">
   <a href="http://127.0.0.1:9090/" id="main_link"><img id="logo" src="/assets/img/logo.png" alt=""></a>
   <ul class="nav_links">
-    <li><a onclick="openModal('#logModalWindow')" href="#" id="log_in">Log in</a> </li>
-    <li><a onclick="openModal('#regModalWindow')" href="#" id="sign_up">Sign up</a></li>
+    <li><a onclick="openModal('#logModalWindow')" href="#" id="log_in">Войти</a> </li>
+    <li><a onclick="openModal('#regModalWindow')" href="#" id="sign_up">Зарегистрироваться</a></li>
   </ul>
 </header>
 
+<!--Login form-->
 <div class="modalWindowContainer" id="logModalWindow">
   <div class="modalWindow">
     <button onclick="closeModal('#logModalWindow')" type="button" class="btn-close js-modal-close" aria-label="Close"></button>
-    <h1 class="modalWindowHeading">Login</h1>
+    <h1 class="modalWindowHeading">Авторизация</h1>
     <form method="POST" action="/posts/login" class="loginForm" id="login_form">
       <div class="form-group">
         <label for="log_email"></label>
         <input class="form-control" type="email" id="log_email" placeholder="Email" name="email">
 
         <label for="log_pwd"></label>
-        <input class="form-control" type="password" id="log_pwd" placeholder="Password" name="password">
-        <a href="#" id="log_forgot" class="forgot">Forgot password?</a>
+        <input class="form-control" type="password" id="log_pwd" placeholder="Пароль" name="password">
+<!--        <a href="#" id="log_forgot" class="forgot">Забыли пароль?</a>-->
+        <br>
       </div>
-      <input class="btn btn-primary formSubmit" type="submit" id="loginSubmit" name="submit" value="Login"><br>
+      <input class="btn btn-primary formSubmit" type="submit" id="loginSubmit" name="submit" value="Войти"><br>
     </form>
-    <p>New to Nymph? <a href="#" onclick="openModal('#regModalWindow')">Registered now</a>.</p>
+    <p>Впервые в Nymph? <a href="#" onclick="openModal('#regModalWindow')">Зарегистрируйтесь</a>.</p>
   </div>
 </div>
 
+<!--Registration form-->
 <div class="modalWindowContainer" id="regModalWindow">
   <div class="modalWindow">
     <button onclick="closeModal('#regModalWindow')" type="button" class="btn-close js-modal-close" aria-label="Close"></button>
-    <h1 class="modalWindowHeading">Register</h1>
-    <form method="POST" action="" class="loginForm">
+    <h1 class="modalWindowHeading">Регистрация</h1>
+    <form method="POST" action="/posts/reg"  class="loginForm" id="reg_form">
       <div class="form-group">
-        <label for="reg_email"></label>
-        <input class="form-control" type="email" required id="reg_email" placeholder="Email" name="email">
-
-        <label for="reg_pwd"></label>
-        <input class="form-control" type="password" id="reg_pwd" placeholder="Password" name="password">
-        <label for="reg_pwd_conf"></label>
-        <input class="form-control" type="password" id="reg_pwd_conf" placeholder="Confirm your password" name="password_conf">
-        <br>
+        <input class="form-control" type="email" id="reg_email" placeholder="Email" name="email" required>
+        <input class="form-control" type="text" id="reg_username" placeholder="Имя пользователя" name="username" required>
+        <input class="form-control" type="password" minlength="8" id="reg_pwd" placeholder="Пароль" name="password" required>
+        <button disabled aria-label="Пароль должен иметь не менее 8 символов." role="tooltip" id="passwordTooltip">
+          <img src="/assets/img/questionMark.svg">
+        </button>
+        <input class="form-control" type="password" id="reg_pwd_conf" placeholder="Подтвердите пароль" name="password_conf" required>
       </div>
-      <input class="btn btn-primary formSubmit" type="submit" id="regSubmit" name="submit" value="Register"><br>
+      <input class="btn btn-primary formSubmit" type="submit" id="regSubmit" name="submit" value="Зарегистрироваться" onclick="passwordCheck()"><br>
     </form>
-    <p>Have an account? <a href="#" onclick="openModal('#logModalWindow')">Log in now</a>.</p>
+    <p>Уже зарегистрированы? <a href="#" onclick="openModal('#logModalWindow')">Войти сейчас</a>.</p>
   </div>
 </div>
 
 <div class="modalWindowContainer" id="successModalWindow">
   <div class="modalWindow">
     <button onclick="closeModal('#successModalWindow')" type="button" class="btn-close js-modal-close" aria-label="Close"></button>
-    <h1 class="modalWindowHeading">Register</h1>
+    <h1 class="modalWindowHeading">Зарегистрироваться</h1>
   </div>
 </div>
+
+
 {{ end }}
