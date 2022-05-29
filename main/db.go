@@ -2,16 +2,12 @@ package main
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	_ "github.com/jmoiron/sqlx"
 )
 
 var db *sql.DB
-
-type UsersIdUsername struct {
-	id       []string
-	username []string
-}
 
 func connect() error {
 	var e error
@@ -32,42 +28,36 @@ func dbRequestLogin(d struct{ email, password string }) (bool, user) {
 	}
 	if comparePassword(d.password, CurrentUser.Password) {
 		sqlQuery = "SELECT * FROM users WHERE email = '" + d.email + "';"
-		e = db.QueryRow(sqlQuery).Scan(&CurrentUser.ID, &CurrentUser.Username, &CurrentUser.Email, &CurrentUser.Password)
+		e = db.QueryRow(sqlQuery).Scan(&CurrentUser.Username, &CurrentUser.Email, &CurrentUser.Password, &CurrentUser.Description, &CurrentUser.ID)
 		return true, CurrentUser
 	} else {
 		return false, CurrentUser
 	}
 }
 
-func dbRequestReg(d struct{ email, password string }) (sql.Result, error) {
+func dbRequestReg(d struct{ email, username, password string }) error {
 	//checking of existing users with this email
-	sqlQuery := "SELECT * FROM users WHERE 'email' = ?;"
-	row := db.QueryRow(sqlQuery, d.email)
 	var userID string
-	e := row.Scan(&userID)
-	if e != sql.ErrNoRows {
-		return nil, e
+	db.QueryRow(fmt.Sprintf("SELECT * FROM users WHERE 'email' = %s  ;", d.email)).Scan(&userID)
+	e := errors.New("Пользователь с этой почтой уже зарегистрирован")
+	if userID != "" {
+		return e
 	}
 	//inserting new user into db
 	d.password, e = hashPassword(d.password)
 	if e != nil {
-		return nil, e
+		return e
 	}
-	sqlQuery = "INSERT INTO users (email, password) VALUES ('" + d.email + "', '" + d.password + "');"
-	res, e := db.Exec(sqlQuery)
-	return res, e
+	sqlQuery := "INSERT INTO users (username, email, password) VALUES ('" + d.username + "', '" + d.email + "', '" + d.password + "');"
+	_, e = db.Exec(sqlQuery)
+	return e
 }
 
-func receiveAllUsersID() (struct {
-	id       []string
-	username []string
-}, error) {
-	var users UsersIdUsername
-	sqlQuery := "SELECT id, username FROM users;"
-	rows, e := db.Query(sqlQuery)
+func getUserPage(d string) error {
+	var pageOwner user
+	e := db.QueryRow(fmt.Sprintf("SELECT * FROM users WHERE 'username' = %s  ;", d)).Scan(&pageOwner.Username, &pageOwner.Email, &pageOwner.Password, &pageOwner.Description, &pageOwner.ID)
 	if e != nil {
-		return users, e
+		return e
 	}
-	rows.Scan(&users.id, &users.username)
-	return users, e
+	return e
 }

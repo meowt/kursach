@@ -19,10 +19,11 @@ type settings struct {
 }
 
 type user struct {
-	ID       int    `json:"id"`
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	ID          int    `json:"id"`
+	Username    string `json:"username"`
+	Email       string `json:"email"`
+	Password    string `json:"password"`
+	Description string `json:"description"`
 }
 
 var cfg settings

@@ -3,7 +3,10 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/context"
+	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
+	"html/template"
 	"net/http"
 )
 
@@ -12,49 +15,40 @@ var data user
 var store = sessions.NewCookieStore([]byte("random-hash-secret"))
 
 func server() {
-	router = gin.Default()
-	router.LoadHTMLGlob(cfg.Html + "*")
-	router.Static("/assets", cfg.Assets)
-	router.GET("/", index)
-	router.POST("/posts/login", login)
-	router.POST("/posts/reg", reg)
-	e := router.Run(cfg.ServerHost + ":" + cfg.ServerPort)
-	if e == nil {
+	rtr := mux.NewRouter()
+	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./web/assets/"))))
+	rtr.HandleFunc("/", index)
+	http.Handle("/", rtr)
+	rtr.HandleFunc("/user/{username}", userPage)
+	rtr.HandleFunc("/posts/login", login).Methods("POST")
+	rtr.HandleFunc("/posts/reg", reg).Methods("POST")
+	e := http.ListenAndServe(cfg.ServerHost+":"+cfg.ServerPort, context.ClearHandler(http.DefaultServeMux))
+	if e != nil {
 		fmt.Println(e.Error())
 		panic("Не удалось запустить сервер")
 	}
 }
 
-func index(c *gin.Context) {
-	c.HTML(http.StatusOK, "header.html", gin.H{
-		"title": "Nymph",
-	})
-	c.HTML(http.StatusOK, "indexBody.html", nil)
-	c.HTML(http.StatusOK, "footer.html", nil)
-}
+func index(w http.ResponseWriter, r *http.Request) {
+	t, e := template.ParseFiles("./web/templates/indexBody.html", "./web/templates/header.html", "./web/templates/footer.html", "./web/templates/index.html", "./web/templates/trueHeader.html")
 
-func logged(c *gin.Context) {
-	c.HTML(http.StatusOK, "trueHeader.html", gin.H{
-		"username": data.Username,
-	})
-	c.HTML(http.StatusOK, "authIndexBody.html", nil)
-	c.HTML(http.StatusOK, "footer.html", nil)
-}
-
-func login(c *gin.Context) {
-	var e error
-	//parsing POST form data
-	e = c.Request.ParseForm()
 	if e != nil {
-		fmt.Println(e.Error())
-		panic("Не удалось распарсить форму авторизации")
+		fmt.Fprintln(w, e.Error())
 	}
+	var data struct {
+		user string
+	}
+	data.user = "meowt"
+	t.ExecuteTemplate(w, "index", nil)
+}
+
+func login(w http.ResponseWriter, r *http.Request) {
 	//creating struct from POST data
 	var LoginData struct {
 		email, password string
 	}
-	LoginData.email = c.Request.FormValue("email")
-	LoginData.password = c.Request.FormValue("password")
+	LoginData.email = r.FormValue("email")
+	LoginData.password = r.FormValue("password")
 	//checking
 	var res bool
 	res, data = dbRequestLogin(LoginData)
@@ -75,61 +69,43 @@ func login(c *gin.Context) {
 		//	c.JSON(200, gin.H{"count": count})
 		//})
 
-		c.Redirect(http.StatusMovedPermanently, "http://127.0.0.1:9090/user/"+data.Username)
+		http.Redirect(w, r, "/user/"+data.Username, http.StatusSeeOther)
 	} else {
-		c.Writer.WriteString("error happened(")
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 }
 
-func reg(c *gin.Context) {
-	var e error
-	//parsing POST form data
-	e = c.Request.ParseForm()
-	if e != nil {
-		fmt.Println(e.Error())
-		panic("Не удалось распарсить форму регистрации")
-	}
+func reg(w http.ResponseWriter, r *http.Request) {
 	//creating struct from POST data
 	var RegData struct {
-		email, password string
+		email, username, password string
 	}
-	RegData.email = c.Request.FormValue("email")
-	RegData.password = c.Request.FormValue("password")
+	RegData.email = r.FormValue("email")
+	RegData.username = r.FormValue("username")
+	RegData.password = r.FormValue("password")
 	//uploading to db
-	_, e = dbRequestReg(RegData)
-
-	println()
-	if e == nil {
-		c.Redirect(http.StatusMovedPermanently, "http://127.0.0.1:9090/user/"+data.Username)
-	} else {
-		c.Writer.WriteString("<script>" +
-			"alert('Email is busy.')" +
-			"</script>")
-		c.Writer.WriteString("<script>" +
-			"window.location.href = 'http://127.0.0.1:9090/'" +
-			"</script>")
-	}
-}
-
-var currentVar string
-
-func getAllUsers() {
-	var allUsers UsersIdUsername
-	var e error
-	allUsers, e = receiveAllUsersID()
+	e := dbRequestReg(RegData)
 	if e != nil {
-		fmt.Println(e.Error())
-		panic("Не удалось загрузить список пользователей")
-	}
-	for i := 0; i < len(allUsers.id); i++ {
-		router.GET("/"+allUsers.id[i], userPage)
+		//error part
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		//c.Writer.WriteString("<script>" +
+		//	"alert('Email is busy.')" +
+		//	"</script>")
+		//c.Writer.WriteString("<script>" +
+		//	"window.location.href = 'http://127.0.0.1:9090/'" +
+		//	"</script>")
+	} else {
+		//correct part
+		http.Redirect(w, r, "/"+RegData.username, http.StatusSeeOther)
 	}
 }
 
-func userPage(c *gin.Context) {
-	c.HTML(http.StatusOK, "trueHeader.html", gin.H{
-		"username": data.Username,
-	})
-	c.HTML(http.StatusOK, "authIndexBody.html", nil)
-	c.HTML(http.StatusOK, "footer.html", nil)
+func userPage(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	e := getUserPage(vars["username"])
+	if e != nil {
+
+	}
+	t, e := template.ParseFiles("./web/templates/indexBody.html", "./web/templates/header.html", "./web/templates/footer.html", "./web/templates/index.html", "./web/templates/trueHeader.html")
+	t.ExecuteTemplate(w, "userpage", data)
 }
