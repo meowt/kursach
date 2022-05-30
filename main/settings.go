@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"github.com/jackc/pgtype"
@@ -20,20 +21,20 @@ type settings struct {
 }
 
 type user struct {
-	ID          int    `json:"id"`
-	Username    string `json:"username"`
-	Email       string `json:"email"`
-	Password    string `json:"password"`
-	Description string `json:"description"`
+	ID          int            `json:"id"`
+	Username    string         `json:"username"`
+	Email       string         `json:"email"`
+	Password    string         `json:"password"`
+	Description sql.NullString `json:"description"`
 }
 
 type theme struct {
 	ID          int
 	Path        string
 	Followers   int
-	Description string
 	ReleaseDate pgtype.Date
 	CreatorName string
+	Description sql.NullString
 }
 
 var cfg settings

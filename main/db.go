@@ -56,14 +56,20 @@ func dbRequestReg(d struct{ email, username, password string }) error {
 func getUserPage(d string) (user, []theme, error) {
 	var pageOwner user
 	var themes []theme
-	e := db.QueryRow(fmt.Sprintf("SELECT * FROM users WHERE 'username' = %s ;", d)).Scan(&pageOwner.Username, &pageOwner.Email, &pageOwner.Password, &pageOwner.Description, &pageOwner.ID)
+	e := db.QueryRow(fmt.Sprintf("SELECT * FROM users WHERE username = '%s' ;", d)).Scan(&pageOwner.Username, &pageOwner.Email, &pageOwner.Password, &pageOwner.Description, &pageOwner.ID)
 	if e != nil {
-		return pageOwner, themes, e
+		fmt.Println(e.Error())
 	}
-	rows, _ := db.Query(fmt.Sprintf("SELECT * FROM themes WHERE 'creator_id = %s ;'", pageOwner.ID))
+	rows, e := db.Query(fmt.Sprintf("SELECT * FROM themes WHERE creator_name = '%s' ORDER BY followers ASC ;", pageOwner.Username))
+	if e != nil {
+		fmt.Println(e.Error())
+	}
 	for rows.Next() {
 		var theme theme
-		_ = rows.Scan(&theme.ID, &theme.Path, &theme.Followers, &theme.Description, &theme.ReleaseDate, &theme.CreatorName)
+		e = rows.Scan(&theme.Path, &theme.ReleaseDate, &theme.CreatorName, &theme.Followers, &theme.Description, &theme.ID)
+		if e != nil {
+			fmt.Println(e.Error())
+		}
 		themes = append(themes, theme)
 	}
 	return pageOwner, themes, e

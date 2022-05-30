@@ -123,6 +123,7 @@ func userPage(w http.ResponseWriter, r *http.Request) {
 	session, _ := store.Get(r, "session-name")
 	data.Username = fmt.Sprint(session.Values["username"])
 	if vars["username"] == fmt.Sprint(session.Values["username"]) {
+		fmt.Println(themes)
 		_ = t.ExecuteTemplate(w, "trueHeader", data)
 		_ = t.ExecuteTemplate(w, "userPageHead", data)
 		_ = t.ExecuteTemplate(w, "userPageBody", themes)
@@ -131,7 +132,6 @@ func userPage(w http.ResponseWriter, r *http.Request) {
 		_ = t.ExecuteTemplate(w, "trueHeader", data)
 		_ = t.ExecuteTemplate(w, "userPageBody", pageOwner)
 	}
-
 }
 
 func exit(w http.ResponseWriter, r *http.Request) {
