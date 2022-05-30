@@ -11,7 +11,6 @@ a {
 }
 .container {
     margin-top: 45px;
-    width: 870px;
     padding: 30px 30px 0;
     background: rgba(255, 255, 255, 93%);
     border-radius: 3px 3px 0 0;
@@ -32,6 +31,10 @@ a {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+}
+#edit_btn {
+    background: #f9f9f9;
+    border: 1px solid #b8b8b8;
 }
 .prof_nav {
 
@@ -62,7 +65,7 @@ a {
     background: #f9f9f9;
     margin-top: 0;
 }
-.theme_prev {
+.theme_preview {
     width: 267px;
     height: 150px;
 }

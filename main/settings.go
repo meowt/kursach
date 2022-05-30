@@ -30,6 +30,7 @@ type user struct {
 
 type theme struct {
 	ID          int
+	Name        string
 	Path        string
 	Followers   int
 	ReleaseDate pgtype.Date

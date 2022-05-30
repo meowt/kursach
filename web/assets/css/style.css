@@ -192,5 +192,9 @@ header {
 }
 .bodyContainer {
     width: 100%;
+    min-height: 100vh;
     transition-duration: 0.5s;
+}
+footer {
+
 }

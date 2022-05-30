@@ -60,17 +60,34 @@ func getUserPage(d string) (user, []theme, error) {
 	if e != nil {
 		fmt.Println(e.Error())
 	}
-	rows, e := db.Query(fmt.Sprintf("SELECT * FROM themes WHERE creator_name = '%s' ORDER BY followers ASC ;", pageOwner.Username))
+	rows, e := db.Query(fmt.Sprintf("SELECT * FROM themes WHERE creator_name = '%s' ORDER BY followers ASC LIMIT 4;", pageOwner.Username))
 	if e != nil {
 		fmt.Println(e.Error())
 	}
 	for rows.Next() {
 		var theme theme
-		e = rows.Scan(&theme.Path, &theme.ReleaseDate, &theme.CreatorName, &theme.Followers, &theme.Description, &theme.ID)
+		e = rows.Scan(&theme.Path, &theme.ReleaseDate, &theme.CreatorName, &theme.Followers, &theme.Description, &theme.ID, &theme.Name)
 		if e != nil {
 			fmt.Println(e.Error())
 		}
 		themes = append(themes, theme)
 	}
 	return pageOwner, themes, e
+}
+
+func getThemePage(d string) theme {
+	//getting theme data
+	var theme theme
+	e := db.QueryRow(fmt.Sprintf("SELECT * FROM themes WHERE id = '%s' ;", d)).Scan(
+		&theme.Path,
+		&theme.ReleaseDate,
+		&theme.CreatorName,
+		&theme.Followers,
+		&theme.Description,
+		&theme.ID,
+		&theme.Name)
+	if e != nil {
+		fmt.Println("theme scanning" + e.Error())
+	}
+	return theme
 }

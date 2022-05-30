@@ -19,6 +19,10 @@ func server() {
 	rtr.HandleFunc("/", index)
 	http.Handle("/", rtr)
 	rtr.HandleFunc("/user/{username}", userPage)
+	rtr.HandleFunc("/user/{username}/follows", userPageFollows)
+	rtr.HandleFunc("/user/{username}/about", userPageAbout)
+	rtr.HandleFunc("/user/{username}/edit", userPageEdit)
+	rtr.HandleFunc("/theme/{id}", themePage)
 	rtr.HandleFunc("/posts/login", login).Methods("POST")
 	rtr.HandleFunc("/posts/reg", reg).Methods("POST")
 	rtr.HandleFunc("/exit", exit).Methods("GET")
@@ -30,7 +34,7 @@ func server() {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	t, e := template.ParseFiles("./web/templates/indexBody.html", "./web/templates/header.html", "./web/templates/footer.html", "./web/templates/index.html", "./web/templates/trueHeader.html")
+	t, e := template.ParseFiles("./web/templates/indexBody.html", "./web/templates/header.html", "./web/templates/footer.html", "./web/templates/index.html", "./web/templates/trueHeader.html", "./web/templates/scripts.html")
 
 	if e != nil {
 		fmt.Fprintln(w, e.Error())
@@ -114,23 +118,165 @@ func reg(w http.ResponseWriter, r *http.Request) {
 }
 
 func userPage(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	pageOwner, themes, e := getUserPage(vars["username"])
-	if e != nil {
-
-	}
-	t, e := template.ParseFiles("./web/templates/footer.html", "./web/templates/trueHeader.html", "./web/templates/userPage.html", "./web/templates/userPageHead.html")
+	//session expiring update
 	session, _ := store.Get(r, "session-name")
+	if session.Values["logged"] != true {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+	session.Options = &sessions.Options{
+		MaxAge: 60 * 60 * 2,
+	}
+	_ = session.Save(r, w)
+	vars := mux.Vars(r)
+	pageOwner, themes, _ := getUserPage(vars["username"])
+
+	t, _ := template.ParseFiles(
+		"./web/templates/scripts.html",
+		"./web/templates/trueHeader.html",
+		"./web/templates/userPage.html",
+		"./web/templates/userPageHeadThemes.html")
+
 	data.Username = fmt.Sprint(session.Values["username"])
 	if vars["username"] == fmt.Sprint(session.Values["username"]) {
-		fmt.Println(themes)
+		//fmt.Println("1 theme")
 		_ = t.ExecuteTemplate(w, "trueHeader", data)
-		_ = t.ExecuteTemplate(w, "userPageHead", data)
-		_ = t.ExecuteTemplate(w, "userPageBody", themes)
-		_ = t.ExecuteTemplate(w, "footer", nil)
+		_ = t.ExecuteTemplate(w, "userOwnPageHead", data)
+		_ = t.ExecuteTemplate(w, "userPageTheme", themes)
+		_ = t.ExecuteTemplate(w, "scripts", nil)
 	} else {
+		//fmt.Println("2 theme")
 		_ = t.ExecuteTemplate(w, "trueHeader", data)
-		_ = t.ExecuteTemplate(w, "userPageBody", pageOwner)
+		_ = t.ExecuteTemplate(w, "userPageHead", pageOwner)
+		if len(themes) != 0 {
+			//fmt.Println("3 theme")
+			_ = t.ExecuteTemplate(w, "userPageTheme", themes)
+		} else {
+			//fmt.Println("4 theme")
+			_ = t.ExecuteTemplate(w, "emptyUserPageTheme", themes)
+		}
+		_ = t.ExecuteTemplate(w, "scripts", nil)
+	}
+}
+
+func userPageAbout(w http.ResponseWriter, r *http.Request) {
+	//session expiring update
+	session, _ := store.Get(r, "session-name")
+	if session.Values["logged"] != true {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+	session.Options = &sessions.Options{
+		MaxAge: 60 * 60 * 2,
+	}
+	_ = session.Save(r, w)
+	vars := mux.Vars(r)
+	pageOwner, _, _ := getUserPage(vars["username"])
+
+	t, _ := template.ParseFiles(
+		"./web/templates/scripts.html",
+		"./web/templates/trueHeader.html",
+		"./web/templates/userPage.html",
+		"./web/templates/userPageHeadAbout.html")
+	data.Username = fmt.Sprint(session.Values["username"])
+	if vars["username"] == fmt.Sprint(session.Values["username"]) {
+		//fmt.Println("1 ab")
+		_ = t.ExecuteTemplate(w, "trueHeader", data)
+		_ = t.ExecuteTemplate(w, "userOwnPageHead", data)
+		_ = t.ExecuteTemplate(w, "userPageAbout", pageOwner)
+		_ = t.ExecuteTemplate(w, "scripts", nil)
+	} else {
+		//fmt.Println("2 ab")
+		_ = t.ExecuteTemplate(w, "trueHeader", data)
+		if pageOwner.Description.Valid {
+			//fmt.Println("3 ab")
+			_ = t.ExecuteTemplate(w, "userPageHead", pageOwner)
+		} else {
+			//fmt.Println("4 ab")
+			_ = t.ExecuteTemplate(w, "userPageHead", pageOwner)
+			_ = t.ExecuteTemplate(w, "emptyUserPageAbout", pageOwner)
+		}
+		_ = t.ExecuteTemplate(w, "scripts", nil)
+	}
+}
+
+func userPageFollows(w http.ResponseWriter, r *http.Request) {
+	//session expiring update
+	session, _ := store.Get(r, "session-name")
+	if session.Values["logged"] != true {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+	session.Options = &sessions.Options{
+		MaxAge: 60 * 60 * 2,
+	}
+	_ = session.Save(r, w)
+
+	vars := mux.Vars(r)
+	pageOwner, _, _ := getUserPage(vars["username"])
+
+	t, _ := template.ParseFiles(
+		"./web/templates/scripts.html",
+		"./web/templates/trueHeader.html",
+		"./web/templates/userPage.html",
+		"./web/templates/userPageHeadFollows.html")
+	data.Username = fmt.Sprint(session.Values["username"])
+	if vars["username"] == fmt.Sprint(session.Values["username"]) {
+		//fmt.Println("1 fol")
+		_ = t.ExecuteTemplate(w, "trueHeader", data)
+		_ = t.ExecuteTemplate(w, "userOwnPageHead", data)
+		_ = t.ExecuteTemplate(w, "userPageFollows", pageOwner)
+		_ = t.ExecuteTemplate(w, "scripts", nil)
+	} else {
+		//fmt.Println("2 fol")
+		_ = t.ExecuteTemplate(w, "trueHeader", data)
+		_ = t.ExecuteTemplate(w, "userPageHead", pageOwner)
+		_ = t.ExecuteTemplate(w, "userPageFollows", pageOwner)
+		_ = t.ExecuteTemplate(w, "scripts", nil)
+	}
+}
+
+func userPageEdit(w http.ResponseWriter, r *http.Request) {
+	//session expiring update
+	session, _ := store.Get(r, "session-name")
+	if session.Values["logged"] != true {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+	session.Options = &sessions.Options{
+		MaxAge: 60 * 60 * 2,
+	}
+	_ = session.Save(r, w)
+}
+
+func themePage(w http.ResponseWriter, r *http.Request) {
+	//session expiring update
+	session, _ := store.Get(r, "session-name")
+	if session.Values["logged"] != true {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+	session.Options = &sessions.Options{
+		MaxAge: 60 * 60 * 2,
+	}
+	_ = session.Save(r, w)
+
+	//getting data from url
+	vars := mux.Vars(r)
+	//getting theme data from bd
+	theme := getThemePage(vars["id"])
+
+	t, _ := template.ParseFiles(
+		"./web/templates/scripts.html",
+		"./web/templates/trueHeader.html",
+		"./web/templates/themePage.html")
+
+	data.Username = fmt.Sprint(session.Values["username"])
+	if theme.CreatorName == fmt.Sprint(session.Values["username"]) {
+		//fmt.Println("my theme")
+		_ = t.ExecuteTemplate(w, "trueHeader", data)
+		_ = t.ExecuteTemplate(w, "themeOwnPage", theme)
+		_ = t.ExecuteTemplate(w, "scripts", nil)
+	} else {
+		//fmt.Println("else's theme")
+		_ = t.ExecuteTemplate(w, "trueHeader", data)
+		_ = t.ExecuteTemplate(w, "themeOwnPage", theme)
+		_ = t.ExecuteTemplate(w, "scripts", nil)
 	}
 }
 
@@ -144,7 +290,6 @@ func exit(w http.ResponseWriter, r *http.Request) {
 		MaxAge:   -1,
 		HttpOnly: true,
 	}
-	e = session.Save(r, w)
 	if e != nil {
 		http.Error(w, e.Error(), http.StatusInternalServerError)
 		return

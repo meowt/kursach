@@ -1,17 +1,56 @@
-{{ define "userPageBody" }}
+{{ define "userPageTheme" }}
     <div class="main container">
         <div class="row">
-            <p>Самые популярные</p>
+            <h4>Самые популярные</h4>
         </div>
         <div class="row">
             {{ range . }}
-            <div class="col">
-                <div class="theme">
-                    <img src="{{ .Path }}wallpaper.jpg" alt="" class="theme_prev">
-                </div>
+            <div class="col-3">
+                <a href="/theme/{{ .ID }}">
+                    <div class="theme">
+                        <img src="{{ .Path }}wallpaper.jpg" alt="" class="theme_preview">
+                        <p>{{ .Name }}</p>
+                    </div>
+                </a>
             </div>
             {{ end }}
         </div>
     </div>
+{{ end }}
 
+{{ define "userPageFollows" }}
+<div class="main container">
+    <div class="row">
+        <h4>Подписки</h4>
+    </div>
+    <div class="row">
+        <p>К сожалению, данный раздел не готов</p>
+    </div>
+</div>
+{{ end }}
+
+{{ define "userPageAbout" }}
+    <div class="main container">
+        <div class="row">
+            <h4>Описание</h4>
+        </div>
+        <div class="row">
+            <p>{{ .Description.String }}</p>
+        </div>
+    </div>
+{{ end }}
+
+{{ define "emptyUserPageTheme" }}
+<div class="main container">
+    <div class="row">
+        <h4>К сожалению, пользователь ещё не добавил ни одной темы</h4>
+    </div>
+</div>
+{{ end }}
+{{ define "emptyUserPageAbout" }}
+<div class="main container">
+    <div class="row">
+        <h4>К сожалению, пользователь ещё не настроил описание</h4>
+    </div>
+</div>
 {{ end }}

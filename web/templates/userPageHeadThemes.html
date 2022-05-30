@@ -1,0 +1,89 @@
+{{ define "userPageHead" }}
+<link href="/assets/css/userPage.css" rel="stylesheet">
+<body>
+<div class="bodyContainer">
+    <div class="background" style='background-image: url("/user_files/{{ .Username }}/background.jpg")'>
+        <div class="container head">
+            <div class="row">
+                <div class="col">
+                    <div class="avatar">
+                        <img src="/user_files/{{ .Username }}/avatar.jpg" id="avatar">
+                        <h4>{{ .Username }}</h4>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col" class="prof_nav_links">
+                    <a href="/user/{{ .Username }}">
+                        <div class="prof_nav shown">
+                            Темы
+                        </div>
+                    </a>
+                </div>
+                <div class="col" class="prof_nav_links">
+                    <a href="/user/{{ .Username }}/follows" disabled>
+                        <div class="prof_nav">
+                            Подписки
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="/user/{{ .Username }}/about" class="prof_nav_links">
+                        <div class="prof_nav">
+                            Об авторе
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{{ end }}
+
+{{ define "userOwnPageHead" }}
+<link href="/assets/css/userPage.css" rel="stylesheet">
+<body>
+<div class="bodyContainer">
+    <div class="background" style='background-image: url("/user_files/{{ .Username }}/background.jpg")'>
+        <div class="container head">
+            <div class="row">
+                <div class="col">
+                    <div class="avatar">
+                        <img src="/user_files/{{ .Username }}/avatar.jpg" id="avatar">
+                        <h4>{{ .Username }}</h4>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="configure">
+                        <a href="/user/{{ .Username }}/edit">
+                            <button class="btn" id="edit_btn">Редактировать</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" class="prof_nav_links">
+                    <a href="/user/{{ .Username }}">
+                        <div class="prof_nav shown">
+                            Темы
+                        </div>
+                    </a>
+                </div>
+                <div class="col" class="prof_nav_links">
+                    <a href="/user/{{ .Username }}/follows" disabled>
+                        <div class="prof_nav">
+                            Подписки
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="/user/{{ .Username }}/about" class="prof_nav_links">
+                        <div class="prof_nav">
+                            Об авторе
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{{ end }}

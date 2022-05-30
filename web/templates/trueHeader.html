@@ -33,8 +33,8 @@
 <nav>
     <div class="navbar">
         <ul>
-            <li><a href="#"><img src="/assets/img/catalogue.svg" title="Menu">Catalogue</a></li>
-            <li><a href="#"><img src="/assets/img/library.svg" title="Menu">Library</a></li>
+            <li><a href="/"><img src="/assets/img/catalogue.svg" title="Menu">Каталог</a></li>
+            <li><a href="#"><img src="/assets/img/library.svg" title="Menu">Библиотека</a></li>
 
         </ul>
 
@@ -43,10 +43,10 @@
 
 <div class="profbar">
     <ul>
-        <li><a href="/user/{{ .Username }}">My page</a></li>
-        <li><a href="#">Upload theme</a></li>
-        <li><a href="#">Edit profile</a></li>
-        <li><a href="/exit">Exit</a></li>
+        <li><a href="/user/{{ .Username }}">Мой профиль</a></li>
+        <li><a href="/user/{{ .Username }}/edit">Редактировать</a></li>
+        <li><a href="/upload">Загрузить тему</a></li>
+        <li><a href="/exit">Выйти</a></li>
     </ul>
 </div>
 
