@@ -1,0 +1,16 @@
+{{ define "userPageBody" }}
+    <div class="main container">
+        <div class="row">
+            <p>Самые популярные</p>
+        </div>
+        <div class="row">
+            {{ range . }}
+            <div class="col">
+                <div class="theme">
+                    <img src="{{ .Path }}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+{{ end }}

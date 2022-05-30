@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"github.com/gorilla/context"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
@@ -10,18 +9,19 @@ import (
 	"net/http"
 )
 
-var router *gin.Engine
 var data user
 var store = sessions.NewCookieStore([]byte("random-hash-secret"))
 
 func server() {
 	rtr := mux.NewRouter()
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./web/assets/"))))
+	http.Handle("/user_files/", http.StripPrefix("/user_files/", http.FileServer(http.Dir("./web/user_files/"))))
 	rtr.HandleFunc("/", index)
 	http.Handle("/", rtr)
 	rtr.HandleFunc("/user/{username}", userPage)
 	rtr.HandleFunc("/posts/login", login).Methods("POST")
 	rtr.HandleFunc("/posts/reg", reg).Methods("POST")
+	rtr.HandleFunc("/exit", exit).Methods("GET")
 	e := http.ListenAndServe(cfg.ServerHost+":"+cfg.ServerPort, context.ClearHandler(http.DefaultServeMux))
 	if e != nil {
 		fmt.Println(e.Error())
@@ -36,10 +36,17 @@ func index(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, e.Error())
 	}
 	var data struct {
-		user string
+		Id, Username string
 	}
-	data.user = "meowt"
-	t.ExecuteTemplate(w, "index", nil)
+
+	session, _ := store.Get(r, "session-name")
+	if session.Values["logged"] == true {
+		data.Username = fmt.Sprint(session.Values["username"])
+		t.ExecuteTemplate(w, "trueHeader", data)
+		t.ExecuteTemplate(w, "loggedIndex", data)
+	} else {
+		t.ExecuteTemplate(w, "index", nil)
+	}
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
@@ -53,24 +60,30 @@ func login(w http.ResponseWriter, r *http.Request) {
 	var res bool
 	res, data = dbRequestLogin(LoginData)
 	if res {
-
-		//r.GET("/incr", func(c *gin.Context) {
-		//	session := sessions.Default(c)
-		//	var count int
-		//	v := session.Get("count")
-		//	if v == nil {
-		//		count = 0
-		//	} else {
-		//		count = v.(int)
-		//		count++
-		//	}
-		//	session.Set("count", count)
-		//	session.Save()
-		//	c.JSON(200, gin.H{"count": count})
-		//})
+		session, e := store.Get(r, "session-name")
+		if e != nil {
+			fmt.Fprintln(w, "Session error")
+		}
+		session.Options = &sessions.Options{
+			Path:     "/",
+			MaxAge:   60 * 60 * 2,
+			HttpOnly: true,
+		}
+		session.Values["logged"] = true
+		session.Values["username"] = data.Username
+		e = session.Save(r, w)
+		if e != nil {
+			http.Error(w, e.Error(), http.StatusInternalServerError)
+			return
+		}
 
 		http.Redirect(w, r, "/user/"+data.Username, http.StatusSeeOther)
 	} else {
+		t, e := template.ParseFiles("./web/templates/loginError.html")
+		if e != nil {
+			fmt.Fprintln(w, e.Error())
+		}
+		t.ExecuteTemplate(w, "loginError", nil)
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 }
@@ -102,10 +115,39 @@ func reg(w http.ResponseWriter, r *http.Request) {
 
 func userPage(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	e := getUserPage(vars["username"])
+	pageOwner, themes, e := getUserPage(vars["username"])
 	if e != nil {
 
 	}
-	t, e := template.ParseFiles("./web/templates/indexBody.html", "./web/templates/header.html", "./web/templates/footer.html", "./web/templates/index.html", "./web/templates/trueHeader.html")
-	t.ExecuteTemplate(w, "userpage", data)
+	t, e := template.ParseFiles("./web/templates/footer.html", "./web/templates/trueHeader.html", "./web/templates/userPage.html", "./web/templates/userPageHead.html")
+	session, _ := store.Get(r, "session-name")
+	data.Username = fmt.Sprint(session.Values["username"])
+	if vars["username"] == fmt.Sprint(session.Values["username"]) {
+		_ = t.ExecuteTemplate(w, "trueHeader", data)
+		_ = t.ExecuteTemplate(w, "userPageHead", data)
+		_ = t.ExecuteTemplate(w, "userPageBody", themes)
+		_ = t.ExecuteTemplate(w, "footer", nil)
+	} else {
+		_ = t.ExecuteTemplate(w, "trueHeader", data)
+		_ = t.ExecuteTemplate(w, "userPageBody", pageOwner)
+	}
+
+}
+
+func exit(w http.ResponseWriter, r *http.Request) {
+	session, e := store.Get(r, "session-name")
+	if e != nil {
+		fmt.Fprintln(w, "Session error")
+	}
+	session.Options = &sessions.Options{
+		Path:     "/",
+		MaxAge:   -1,
+		HttpOnly: true,
+	}
+	e = session.Save(r, w)
+	if e != nil {
+		http.Error(w, e.Error(), http.StatusInternalServerError)
+		return
+	}
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

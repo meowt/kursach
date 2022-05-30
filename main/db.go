@@ -53,11 +53,18 @@ func dbRequestReg(d struct{ email, username, password string }) error {
 	return e
 }
 
-func getUserPage(d string) error {
+func getUserPage(d string) (user, []theme, error) {
 	var pageOwner user
-	e := db.QueryRow(fmt.Sprintf("SELECT * FROM users WHERE 'username' = %s  ;", d)).Scan(&pageOwner.Username, &pageOwner.Email, &pageOwner.Password, &pageOwner.Description, &pageOwner.ID)
+	var themes []theme
+	e := db.QueryRow(fmt.Sprintf("SELECT * FROM users WHERE 'username' = %s ;", d)).Scan(&pageOwner.Username, &pageOwner.Email, &pageOwner.Password, &pageOwner.Description, &pageOwner.ID)
 	if e != nil {
-		return e
+		return pageOwner, themes, e
 	}
-	return e
+	rows, _ := db.Query(fmt.Sprintf("SELECT * FROM themes WHERE 'creator_id = %s ;'", pageOwner.ID))
+	for rows.Next() {
+		var theme theme
+		_ = rows.Scan(&theme.ID, &theme.Path, &theme.Followers, &theme.Description, &theme.ReleaseDate, &theme.CreatorName)
+		themes = append(themes, theme)
+	}
+	return pageOwner, themes, e
 }

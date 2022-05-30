@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ .username }}</title>
+
     <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
 
     <link href="/assets/css/bootstrap.css" rel="stylesheet">
@@ -12,7 +12,7 @@
     <link href="/assets/css/style.css" rel="stylesheet">
     <link href="/assets/css/sidebar.css" rel="stylesheet">
     <link href="/assets/css/header.css" rel="stylesheet">
-
+    <title> {{ .Username }}</title>
 </head>
 </head>
 <body>
@@ -26,7 +26,7 @@
     <input type="checkbox" id="profbar">
     <ul class="nav_links">
         <li><label for="profbar">
-            <a id="username">{{ .username }}</a>
+            <a id="username">{{ .Username }}</a>
         </label></li>
     </ul>
 </header>
@@ -43,10 +43,10 @@
 
 <div class="profbar">
     <ul>
-        <li><a href="#">My page</a></li>
+        <li><a href="/user/{{ .Username }}">My page</a></li>
         <li><a href="#">Upload theme</a></li>
         <li><a href="#">Edit profile</a></li>
-        <li><a href="#">Exit</a></li>
+        <li><a href="/exit">Exit</a></li>
     </ul>
 </div>
 

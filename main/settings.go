@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/jackc/pgtype"
 	"os"
 )
 
@@ -24,6 +25,15 @@ type user struct {
 	Email       string `json:"email"`
 	Password    string `json:"password"`
 	Description string `json:"description"`
+}
+
+type theme struct {
+	ID          int
+	Path        string
+	Followers   int
+	Description string
+	ReleaseDate pgtype.Date
+	CreatorName string
 }
 
 var cfg settings
