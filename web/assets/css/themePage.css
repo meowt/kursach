@@ -1,0 +1,39 @@
+body {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1920' height='1400' preserveAspectRatio='none' viewBox='0 0 1920 1400'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1085%26quot%3b)' fill='none'%3e%3crect width='1920' height='1400' x='0' y='0' fill='rgba(249%2c 249%2c 249%2c 1)'%3e%3c/rect%3e%3cpath d='M2051.4377937853196 449.4604493562144L1681.50538942094 370.82888943419766 1602.8738294989234 740.7612937985772 1972.8062338633029 819.3928537205938z' fill='rgba(184%2c 184%2c 184%2c 1)' class='triangle-float2'%3e%3c/path%3e%3cpath d='M1329.2031963623224-229.20613450100078L978.7247118876073-148.2918007618946 1059.6390456267136 202.18668371282055 1410.1175301014287 121.27234997371434z' fill='rgba(184%2c 184%2c 184%2c 1)' class='triangle-float2'%3e%3c/path%3e%3cpath d='M1103.8552358803104 627.326246112396L1237.006504842905 341.782428347482 818.3114181153964 494.17497714980135z' fill='rgba(184%2c 184%2c 184%2c 1)' class='triangle-float2'%3e%3c/path%3e%3cpath d='M700.2701578590752 1227.6126342194111L763.5151181717106 973.9509532552618 509.8534372075612 910.7059929426264 446.60847689492584 1164.3676739067757z' fill='rgba(184%2c 184%2c 184%2c 1)' class='triangle-float2'%3e%3c/path%3e%3cpath d='M1965.3868401900636 365.60940817187554L1783.4338337104928 148.34609338515105 1694.6560676147947 379.62008102899847z' fill='rgba(184%2c 184%2c 184%2c 1)' class='triangle-float2'%3e%3c/path%3e%3cpath d='M1087.165703950655 903.9085882770864L842.4105554338602 1095.132267826775 1033.6342349835488 1339.8874163435698 1278.3893835003435 1148.663736793881z' fill='rgba(184%2c 184%2c 184%2c 1)' class='triangle-float2'%3e%3c/path%3e%3cpath d='M781.7114227669164 703.5807831812946L577.1787095968032 411.477796553841 285.0757229693496 616.0105097239542 489.6084361394628 908.1134963514078z' fill='rgba(184%2c 184%2c 184%2c 1)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M327.5849251194339 978.4926284734177L33.75781229943203 748.4784405208153-17.26982116529166 1070.654238598997z' fill='rgba(184%2c 184%2c 184%2c 1)' class='triangle-float1'%3e%3c/path%3e%3cpath d='M61.80732282383228 339.50274815779966L196.81840060802162 555.5656377388844 453.4071960875541 245.01757627205802z' fill='rgba(184%2c 184%2c 184%2c 1)' class='triangle-float2'%3e%3c/path%3e%3cpath d='M1657.967547153595 550.5546657474454L1444.12047868564 266.20660437177594 1317.6197721727035 550.3318431246955z' fill='rgba(184%2c 184%2c 184%2c 1)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M366.2263119111578 1018.4462958559336L305.81834761054597 793.0007039042434-2.14605816668319 996.3354463310063z' fill='rgba(184%2c 184%2c 184%2c 1)' class='triangle-float2'%3e%3c/path%3e%3cpath d='M1529.3458694013711 154.9373568346035L1716.1078565715002 506.18556882613746 2067.3560685630346 319.4235816560083 1880.594081392905-31.824630335525654z' fill='rgba(184%2c 184%2c 184%2c 1)' class='triangle-float1'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1085'%3e%3crect width='1920' height='1400' fill='white'%3e%3c/rect%3e%3c/mask%3e%3cstyle%3e %40keyframes float1 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(-10px%2c 0)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float1 %7b animation: float1 5s infinite%3b %7d %40keyframes float2 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(-5px%2c -5px)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float2 %7b animation: float2 4s infinite%3b %7d %40keyframes float3 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(0%2c -10px)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float3 %7b animation: float3 6s infinite%3b %7d %3c/style%3e%3c/defs%3e%3c/svg%3e");
+}
+a {
+    text-decoration: none;
+}
+#main_wallpaper {
+    width: 100%;
+}
+.container {
+    margin-bottom: 200px;
+    padding: 0 30px 50px;
+    background: rgba(255, 255, 255, 93%);
+}
+.btn {
+    padding: 0.375rem 1.5rem;
+    background: #f9f9f9;
+    border: 1px solid #b8b8b8;
+}
+.btn:hover {
+    border: 1px solid #5A5A5A;
+    text-decoration: underline;
+}
+#name {
+    margin-top: 20px;
+    margin-left: 40px
+}
+#download {
+    margin-top: 20px;
+    margin-right: 40px;
+    text-align: end;
+}
+.description, .noDescription {
+    margin-top: 20px;
+    margin-left: 40px
+}
+.noDescription {
+    font-weight: 10;
+}

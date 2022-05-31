@@ -1,0 +1,28 @@
+{{ define "uploadPage" }}
+<link href="/assets/css/themePage.css" rel="stylesheet">
+<link href="/assets/css/uploadPage.css" rel="stylesheet">
+
+<div class="bodyContainer">
+    <div class="container">
+        <form method="POST" action="/posts/upload" enctype="multipart/form-data" onsubmit="return confirm('Вы хотите загрузить тему?');">
+            <h3>Загрузка темы</h3>
+            <label for="nameInput" class="form-label">Название темы</label>
+            <input type="text" id="nameInput" class="input form-control" name="name" required>
+
+
+            <label for="wallpaperInput" class="form-label">Файл обоев</label>
+            <input type="file" accept=".jpg" id="wallpaperInput" class="input form-control" name="wallpaper" required>
+
+
+            <label for="descriptionInput" class="form-label">Описание темы</label>
+            <textarea type="text" id="descriptionInput" class="input form-control" name="description"></textarea>
+
+
+            <input type="submit" value="Сохранить" class="btn">
+        </form>
+    </div>
+</div>
+<script>
+
+</script>
+{{ end }}

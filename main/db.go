@@ -60,7 +60,7 @@ func getUserPage(d string) (user, []theme, error) {
 	if e != nil {
 		fmt.Println(e.Error())
 	}
-	rows, e := db.Query(fmt.Sprintf("SELECT * FROM themes WHERE creator_name = '%s' ORDER BY followers ASC LIMIT 4;", pageOwner.Username))
+	rows, e := db.Query(fmt.Sprintf("SELECT * FROM themes WHERE creator_name = '%s' ORDER BY followers DESC LIMIT 4;", pageOwner.Username))
 	if e != nil {
 		fmt.Println(e.Error())
 	}
@@ -90,4 +90,18 @@ func getThemePage(d string) theme {
 		fmt.Println("theme scanning" + e.Error())
 	}
 	return theme
+}
+
+func getThemeId(d string) int {
+	var id int
+	_ = db.QueryRow(fmt.Sprintf("SELECT id FROM themes WHERE creator_name = '%s' ORDER BY id DESC LIMIT 1;", d)).Scan(&id)
+	return id
+}
+
+func saveTheme(t theme) error {
+
+	//inserting new user into db
+	sqlQuery := "INSERT INTO themes (name, path, creator_name, description) VALUES ('" + t.Name + "', '" + t.Path + "', '" + t.CreatorName + "', '" + t.Description.String + "');"
+	_, e := db.Exec(sqlQuery)
+	return e
 }

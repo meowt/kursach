@@ -1,5 +1,43 @@
 {{ define "themeOwnPage" }}
-    working
+<link href="/assets/css/themePage.css" rel="stylesheet">
+<div class="bodyContainer">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <img src="/user_files/{{ .CreatorName }}/theme_{{ .ID }}/wallpaper.jpg" alt="" id="main_wallpaper">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" id="name">
+                <h4>{{ .Name }}</h4>
+                <h6><a href="/user/{{ .CreatorName }}">{{ .CreatorName }}</a></h6>
+            </div>
+            <div class="col" id="download">
+                <a href="/user_files/{{ .CreatorName }}/theme_{{ .ID }}/wallpaper.jpg" download>
+                    <button class="btn">
+                        Скачать
+                    </button>
+                </a>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <h5 class="description">Описание</h5>
+        </div>
+        <div class="row">
+            <div class="col">
+                {{ if .Description.Valid }}
+                <h6 class="description">{{ .Description.String }}</h6>
+                {{ else }}
+                <p class="noDescription">Автор не добавил для этой темы описания</p>
+                {{ end }}
+            </div>
+            <div class="col-6">
+                Дата публикации: {{ .ReleaseDate.Time }}
+            </div>
+        </div>
+    </div>
+</div>
 {{ end }}
 
 {{ define "themePage" }}
