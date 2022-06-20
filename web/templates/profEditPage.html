@@ -1,0 +1,22 @@
+{{ define "profEditPage" }}
+<link href="/assets/css/themePage.css" rel="stylesheet">
+<link href="/assets/css/uploadPage.css" rel="stylesheet">
+
+<div class="bodyContainer">
+    <div class="container">
+        <h2>Редактирование профиля</h2>
+        <form method="POST" action="/posts/avatar" enctype="multipart/form-data" onsubmit="return confirm('Вы хотите загрузить новый аватар?');"
+        style="margin-bottom: 40px">
+            <label for="avatarInput" class="form-label">Аватар</label>
+            <input type="file" accept=".jpg" id="avatarInput" class="input form-control" name="avatar" style="margin-top: 0">
+            <input type="submit" value="Сохранить" class="btn">
+        </form>
+        <form method="POST" action="/posts/background" enctype="multipart/form-data" onsubmit="return confirm('Вы хотите загрузить новые обои?');">
+            <label for="backgroundInput" class="form-label">Обои</label>
+            <input type="file" accept=".jpg" id="backgroundInput" class="input form-control" name="background" style="margin-top: 0">
+            <input type="submit" value="Сохранить" class="btn">
+        </form>
+
+    </div>
+</div>
+{{ end }}

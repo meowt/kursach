@@ -1,77 +1,128 @@
 {{ define "header" }}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Nymph</title>
-  <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <title>Nymph</title>
+    <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
 
-  <link href="/assets/css/bootstrap.css" rel="stylesheet">
-  <link href="/assets/lib/slick.css" rel="stylesheet">
-  <link href="/assets/lib/slick-theme.css" rel="stylesheet">
-  <link href="/assets/css/style.css" rel="stylesheet">
-  <link href="/assets/css/modalWindow.css" rel="stylesheet">
-  <link href="https://unpkg.com/microtip/microtip.css" rel="stylesheet">
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/assets/lib/slick.css" rel="stylesheet">
+    <link href="/assets/lib/slick-theme.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="/assets/css/modalWindow.css" rel="stylesheet">
+    <link href="https://unpkg.com/microtip/microtip.css" rel="stylesheet">
 
-
-  <script src="/assets/js/modalWindowScript.js"></script>
 </head>
 <body>
 <header class="header">
-  <a href="http://127.0.0.1:9090/" id="main_link"><img id="logo" src="/assets/img/logo.png" alt=""></a>
-  <ul class="nav_links">
-    <li><a onclick="openModal('#logModalWindow')" href="#" id="log_in">Войти</a> </li>
-    <li><a onclick="openModal('#regModalWindow')" href="#" id="sign_up">Зарегистрироваться</a></li>
-  </ul>
+    <a href="http://127.0.0.1:9090/" id="main_link"><img id="logo" src="/assets/img/logo.png" alt=""></a>
+    <ul class="nav_links">
+        <li><a onclick="openModal('#logModalWindow')" href="#" id="log_in">Войти</a> </li>
+        <li><a onclick="openModal('#regModalWindow')" href="#" id="sign_up">Зарегистрироваться</a></li>
+    </ul>
 </header>
 
 <!--Login form-->
 <div class="modalWindowContainer" id="logModalWindow">
-  <div class="modalWindow">
-    <button onclick="closeModal('#logModalWindow')" type="button" class="btn-close js-modal-close" aria-label="Close"></button>
-    <h1 class="modalWindowHeading">Авторизация</h1>
-    <form method="POST" action="/posts/login" class="loginForm" id="login_form">
-      <div class="form-group">
-        <label for="log_email"></label>
-        <input class="form-control" type="email" id="log_email" placeholder="Email" name="email">
+    <div class="modalWindow">
+        <button onclick="closeModal('#logModalWindow')" type="button" class="btn-close js-modal-close" aria-label="Close"></button>
+        <h1 class="modalWindowHeading">Авторизация</h1>
+        <form method="POST" action="/posts/login" class="loginForm" id="login_form">
+            <div class="form-control">
+                <input type="email" id="log_email" placeholder="Email" name="email">
+                <button disabled aria-label="Пароль должен иметь не менее 8 символов." role="tooltip" id="passwordTooltip" class="hint">
+                    <!--exclamation-circle-->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle-fill" viewBox="0 0 16 16" id="hint">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                    </svg>
+                </button>
+            </div>
 
-        <label for="log_pwd"></label>
-        <input class="form-control" type="password" id="log_pwd" placeholder="Пароль" name="password">
-<!--        <a href="#" id="log_forgot" class="forgot">Забыли пароль?</a>-->
-        <br>
-      </div>
-      <input class="btn btn-primary formSubmit" type="submit" id="loginSubmit" name="submit" value="Войти"><br>
-    </form>
-    <p>Впервые в Nymph? <a href="#" onclick="openModal('#regModalWindow')">Зарегистрируйтесь</a>.</p>
-  </div>
+            <div class="form-control">
+                <input type="password" id="log_pwd" placeholder="Пароль" name="password">
+                <button disabled aria-label="Пароль должен иметь не менее 8 символов." role="tooltip" id="passwordTooltip" class="hint">
+                    <!--exclamation-circle-->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle-fill" viewBox="0 0 16 16" id="hint">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <input class="btn btn-primary formSubmit" type="submit" id="loginSubmit" name="submit" value="Войти"><br>
+        </form>
+        <p>Впервые в Nymph? <a href="#" onclick="openModal('#regModalWindow')">Зарегистрируйтесь</a>.</p>
+    </div>
 </div>
 
 <!--Registration form-->
 <div class="modalWindowContainer" id="regModalWindow">
-  <div class="modalWindow">
-    <button onclick="closeModal('#regModalWindow')" type="button" class="btn-close js-modal-close" aria-label="Close"></button>
-    <h1 class="modalWindowHeading">Регистрация</h1>
-    <form method="POST" action="/posts/reg"  class="loginForm" id="reg_form">
-      <div class="form-group">
-        <input class="form-control" type="email" id="reg_email" placeholder="Email" name="email" required>
-        <input class="form-control" type="text" id="reg_username" placeholder="Имя пользователя" name="username" required>
-        <input class="form-control" type="password" minlength="8" id="reg_pwd" placeholder="Пароль" name="password" required>
-        <button disabled aria-label="Пароль должен иметь не менее 8 символов." role="tooltip" id="passwordTooltip">
-          <img src="/assets/img/questionMark.svg">
-        </button>
-        <input class="form-control" type="password" id="reg_pwd_conf" placeholder="Подтвердите пароль" name="password_conf" required>
-      </div>
-      <input class="btn btn-primary formSubmit" type="submit" id="regSubmit" name="submit" value="Зарегистрироваться" onclick="passwordCheck()"><br>
-    </form>
-    <p>Уже зарегистрированы? <a href="#" onclick="openModal('#logModalWindow')">Войти сейчас</a>.</p>
-  </div>
+    <div class="modalWindow">
+        <button onclick="closeModal('#regModalWindow')" type="button" class="btn-close js-modal-close" aria-label="Close"></button>
+        <h1 class="modalWindowHeading">Регистрация</h1>
+        <form method="POST" action="/posts/reg" class="loginForm" id="reg_form" name="reg_form">
+            <div class="form-control">
+                <input type="email" id="reg_email" placeholder="Email" name="email" required>
+                <button disabled aria-label="Пароль должен иметь не менее 8 символов." role="tooltip" id="passwordTooltip" class="hint">
+                    <!--exclamation-circle-->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle-fill" viewBox="0 0 16 16" id="hint">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                    </svg>
+                </button>
+                <!--check-circle-->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill hint" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+            </div>
+
+            <div class="form-control">
+                <input type="text" id="reg_username" placeholder="Имя пользователя" name="username" required>
+                <button disabled aria-label="Пароль должен иметь не менее 8 символов." role="tooltip" id="passwordTooltip" class="hint">
+                    <!--exclamation-circle-->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle-fill" viewBox="0 0 16 16" id="hint">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                    </svg>
+                </button>
+                <!--check-circle-->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill hint" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+            </div>
+
+            <div class="form-control">
+                <input type="password" minlength="8" maxlength="30" id="reg_pwd" placeholder="Пароль" name="password" required>
+                <button disabled aria-label="Пароль должен иметь не менее 8 символов." role="tooltip" id="passwordTooltip" class="hint">
+                    <!--exclamation-circle-->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle-fill" viewBox="0 0 16 16" id="hint">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                    </svg>
+                </button>
+                <!--check-circle-->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill hint" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+            </div>
+
+            <div class="form-control">
+                <input type="password" minlength="8" maxlength="30" id="reg_pwd_conf" placeholder="Подтвердите пароль" name="password_conf" required>
+                <button disabled aria-label="Пароль должен иметь не менее 8 символов." role="tooltip" id="passwordTooltip" class="hint">
+                    <!--exclamation-circle-->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle-fill" viewBox="0 0 16 16" id="hint">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                    </svg>
+                </button>
+                <!--check-circle-->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill hint" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+            </div>
+
+            <input class="btn btn-primary formSubmit" type="submit" id="regSubmit" name="submit" value="Зарегистрироваться" onclick=""><br>
+        </form>
+        <p>Уже зарегистрированы? <a href="#" onclick="openModal('#logModalWindow')">Войти сейчас</a>.</p>
+    </div>
 </div>
 
-<div class="modalWindowContainer" id="successModalWindow">
-  <div class="modalWindow">
-    <button onclick="closeModal('#successModalWindow')" type="button" class="btn-close js-modal-close" aria-label="Close"></button>
-    <h1 class="modalWindowHeading">Зарегистрироваться</h1>
-  </div>
-</div>
-
+<script src="/assets/js/regValid.js"></script>
+<script src="/assets/js/modalWindowScript.js"></script>
 {{ end }}

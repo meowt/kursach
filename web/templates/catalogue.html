@@ -1,0 +1,21 @@
+{{ define "catalogue" }}
+<link rel="stylesheet" href="/assets/css/userPage.css">
+<div class="main container">
+    <div class="row">
+        <h4>Последние обновления</h4>
+    </div>
+    <div class="row">
+        {{ range . }}
+        <div class="col-3">
+            <a href="/theme/{{ .ID }}">
+                <div class="theme">
+                    <img src="{{ .Path }}wallpaper.jpg" alt="" class="theme_preview">
+                    <p>{{ .Name }}</p>
+                </div>
+            </a>
+        </div>
+        {{ end }}
+    </div>
+</div>
+<link rel="stylesheet" href="/assets/css/catalogue.css">
+{{ end }}

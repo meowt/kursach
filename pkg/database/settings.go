@@ -1,4 +1,4 @@
-package main
+package database
 
 import (
 	"database/sql"
@@ -20,7 +20,7 @@ type settings struct {
 	Assets     string
 }
 
-type user struct {
+type User struct {
 	ID          int            `json:"id"`
 	Username    string         `json:"username"`
 	Email       string         `json:"email"`
@@ -28,20 +28,19 @@ type user struct {
 	Description sql.NullString `json:"description"`
 }
 
-type theme struct {
+type Theme struct {
 	ID          int
 	Name        string
 	Path        string
-	Followers   int
 	ReleaseDate pgtype.Date
 	CreatorName string
 	Description sql.NullString
 }
 
-var cfg settings
+var Cfg settings
 
 func init() {
-	file, e := os.Open("main/settings.cfg")
+	file, e := os.Open("pkg/database/settings.cfg")
 	if e != nil {
 		fmt.Println(e.Error())
 		panic("Не удалось открыть файл конфигурации")
@@ -62,7 +61,7 @@ func init() {
 		panic("Не удалось прочитать файл конфигурации")
 	}
 
-	e = json.Unmarshal(readByte, &cfg)
+	e = json.Unmarshal(readByte, &Cfg)
 	if e != nil {
 		fmt.Println(e.Error())
 		panic("Не удалось преобразовать файл конфигурации")
