@@ -23,7 +23,8 @@ func UserPageEdit(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
 	//Getting info about current page
-	_, e = database.GetUserPageData(vars["username"])
+	var pageOwner database.User
+	e = pageOwner.GetPageData(vars["username"])
 	errorProc(w, e, "Getting user page data error")
 
 	//Add edit page...

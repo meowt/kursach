@@ -1,10 +1,8 @@
 package database
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
-	"github.com/jackc/pgtype"
 	"os"
 )
 
@@ -20,27 +18,10 @@ type settings struct {
 	Assets     string
 }
 
-type User struct {
-	ID          int            `json:"id"`
-	Username    string         `json:"username"`
-	Email       string         `json:"email"`
-	Password    string         `json:"password"`
-	Description sql.NullString `json:"description"`
-}
-
-type Theme struct {
-	ID          int
-	Name        string
-	Path        string
-	ReleaseDate pgtype.Date
-	CreatorName string
-	Description sql.NullString
-}
-
 var Cfg settings
 
 func init() {
-	file, e := os.Open("pkg/database/settings.cfg")
+	file, e := os.Open("pkg/database/dbSettings.cfg")
 	if e != nil {
 		fmt.Println(e.Error())
 		panic("Не удалось открыть файл конфигурации")

@@ -20,10 +20,10 @@ func Catalogue(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 
-	lastThemes, e := database.GetCatalogue("LAST")
+	lastThemes, e := database.GetLastThemes()
 	errorProc(w, e, "Getting user page data error")
 
-	meowtThemes, e := database.GetCatalogue("MEOWT")
+	meowtThemes, e := database.GetCreatorsThemes("MEOWT")
 	errorProc(w, e, "Getting user page data error")
 
 	//Parsing templates

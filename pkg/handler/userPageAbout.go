@@ -25,7 +25,8 @@ func UserPageAbout(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
 	//Getting info about current page
-	pageOwner, e := database.GetUserPageData(vars["username"])
+	var pageOwner database.User
+	e = pageOwner.GetPageData(vars["username"])
 	errorProc(w, e, "Getting user page data error")
 
 	//Parsing templates

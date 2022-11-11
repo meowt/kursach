@@ -3,7 +3,7 @@ package handler
 import (
 	"Kursach/pkg/database"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"strconv"
@@ -25,7 +25,7 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 	errorProc(w, e, "Forming file error")
 	defer file.Close()
 
-	themeData.ID = database.GetLastThemeId() + 1
+	themeData.ID = database.GetLastThemeID() + 1
 
 	themeData.Path = fmt.Sprintf("./web/user_files/%s/theme_%s", themeData.CreatorName, strconv.Itoa(themeData.ID))
 	e = os.MkdirAll(themeData.Path, 0777)
@@ -34,10 +34,10 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var osFile *os.File
-	osFile, e = ioutil.TempFile(themeData.Path, "*.jpg")
+	osFile, e = os.CreateTemp(themeData.Path, "*.jpg")
 	errorProc(w, e, "Temping file error")
 
-	fileBytes, e := ioutil.ReadAll(file)
+	fileBytes, e := io.ReadAll(file)
 	errorProc(w, e, "Reading file error")
 
 	_, e = osFile.Write(fileBytes)
@@ -54,7 +54,7 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 	themeData.Path = fmt.Sprintf("/user_files/%s/theme_%s/", themeData.CreatorName, strconv.Itoa(themeData.ID))
 
 	themeData.ReleaseDate.Time = time.Now()
-	e = database.SaveTheme(themeData)
+	e = themeData.Save()
 	if e != nil {
 		errorProc(w, e, "Saving theme error")
 	} else {

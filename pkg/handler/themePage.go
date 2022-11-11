@@ -25,8 +25,9 @@ func ThemePage(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
 	//Getting theme's data
-	theme, e := database.GetTheme(vars["id"])
-	errorProc(w, e, "Getting theme's data error")
+	var theme database.Theme
+	err := theme.GetByID(vars["id"])
+	errorProc(w, err, "Getting theme's data error")
 	//Parsing templates
 	t, e := template.ParseFiles(
 		"./web/templates/scripts.html",

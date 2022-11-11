@@ -14,7 +14,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	var Message struct {
 		Message string
 	}
-	userData, Message.Message = database.LoginRequest(r.FormValue("email"), r.FormValue("password"))
+	Message.Message = userData.LoginRequest(r.FormValue("email"), r.FormValue("password"))
 	if Message.Message == "" {
 		//Correct part
 		session, e := store.Get(r, "session-name")
@@ -33,8 +33,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 		e = session.Save(r, w)
 		errorProc(w, e, "Session save error")
-
-		http.Redirect(w, r, "/user/"+data.Username, http.StatusSeeOther)
+		fmt.Println("/user/" + data.Username)
+		http.Redirect(w, r, "/user/"+data.Username, http.StatusOK)
 	} else {
 		fmt.Println(Message)
 		//Error part

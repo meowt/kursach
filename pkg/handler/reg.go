@@ -12,7 +12,7 @@ import (
 
 func Reg(w http.ResponseWriter, r *http.Request) {
 	//Creating struct from POST data
-	var RegData database.RegType
+	var RegData database.User
 	RegData.Email = r.FormValue("email")
 	RegData.Username = r.FormValue("username")
 	RegData.Password = r.FormValue("password")
@@ -21,29 +21,18 @@ func Reg(w http.ResponseWriter, r *http.Request) {
 	var Message struct {
 		Message string
 	}
-	Message.Message = database.RegRequest(RegData)
+	Message.Message = RegData.RegRequest()
 	fmt.Println(Message)
 
 	if Message.Message != "" {
 		//Error part
 		//Parsing files
-		t, e := template.ParseFiles("./web/templates/loginError.html")
-		errorProc(w, e, "Parsing files error")
+		t, err := template.ParseFiles("./web/templates/loginError.html")
+		errorProc(w, err, "Parsing files error")
 
-		//Showing error messages to user
-		if Message.Message == "Пользователь с такой почтой уже зарегистрирован" {
-			e = t.ExecuteTemplate(w, "loginError", Message)
-			errorProc(w, e, "Executing templates error")
-
-		} else if Message.Message == "Пользователь с таким именем уже существует" {
-			e = t.ExecuteTemplate(w, "loginError", Message)
-			errorProc(w, e, "Executing templates error")
-
-		} else {
-			Message.Message = "Произошла ошибка при регистрации"
-			e = t.ExecuteTemplate(w, "loginError", Message)
-			errorProc(w, e, "Executing templates error")
-		}
+		//Showing actual error
+		err = t.ExecuteTemplate(w, "loginError", Message)
+		errorProc(w, err, "Executing templates error")
 	} else {
 		//Correct part
 		src := "./web/user_files/avatar.jpg"
@@ -55,9 +44,9 @@ func Reg(w http.ResponseWriter, r *http.Request) {
 		defer in.Close()
 
 		path := fmt.Sprintf("./web/user_files/%s", RegData.Username)
-		e := os.MkdirAll(path, 0777)
-		if e != nil {
-			panic(e)
+		err = os.MkdirAll(path, 0777)
+		if err != nil {
+			panic(err)
 		}
 
 		out, err := os.Create(dst)

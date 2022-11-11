@@ -7,11 +7,13 @@ import (
 )
 
 func main() {
+	//Connecting to Postgres
 	e := database.Connect()
 	if e != nil {
 		fmt.Println(e.Error() + "\n Db connect error")
 	}
+
+	//Starting handling http requests
 	handler.Server()
-	fmt.Println("Main file")
 
 }

@@ -1,12 +1,14 @@
 package handler
 
 import (
-	"Kursach/pkg/database"
 	"fmt"
+	"net/http"
+
 	"github.com/gorilla/context"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
-	"net/http"
+
+	"Kursach/pkg/database"
 )
 
 var store = sessions.NewCookieStore([]byte("random-hash-secret"))
@@ -15,7 +17,9 @@ func Server() {
 	rtr := mux.NewRouter()
 	http.Handle("/", rtr)
 
-	HandleAssets()
+	//Set assets handler function
+	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./web/assets/"))))
+	http.Handle("/user_files/", http.StripPrefix("/user_files/", http.FileServer(http.Dir("./web/user_files/"))))
 
 	rtr.HandleFunc("/", Index)
 	rtr.HandleFunc("/catalogue", Catalogue)

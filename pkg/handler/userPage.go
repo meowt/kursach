@@ -25,12 +25,13 @@ func UserPage(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
 	//Getting info about current page
-	pageOwner, e := database.GetUserPageData(vars["username"])
+	var pageOwner database.User
+	e = pageOwner.GetPageData(vars["username"])
 	if e != nil {
 		http.Redirect(w, r, "/error", http.StatusSeeOther)
 	}
 
-	themes, e := database.GetThemesData(vars["username"])
+	themes, e := database.GetCreatorsThemes(vars["username"])
 	errorProc(w, e, "Getting user page data error")
 
 	//Parsing templates

@@ -2,7 +2,7 @@ package handler
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"strings"
@@ -24,10 +24,10 @@ func background(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var osFile *os.File
-	osFile, e = ioutil.TempFile(path, "*.jpg")
+	osFile, e = os.CreateTemp(path, "*.jpg")
 	errorProc(w, e, "Temping file error")
 
-	fileBytes, e := ioutil.ReadAll(file)
+	fileBytes, e := io.ReadAll(file)
 	errorProc(w, e, "Reading file error")
 
 	_, e = osFile.Write(fileBytes)
