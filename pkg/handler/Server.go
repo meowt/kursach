@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/context"
@@ -13,7 +12,7 @@ import (
 
 var store = sessions.NewCookieStore([]byte("random-hash-secret"))
 
-func Server() {
+func Server() error {
 	rtr := mux.NewRouter()
 	http.Handle("/", rtr)
 
@@ -50,9 +49,9 @@ func Server() {
 	//error page handler
 	rtr.HandleFunc("/error", ErrorPage).Methods("GET")
 
-	e := http.ListenAndServe(database.Cfg.ServerHost+":"+database.Cfg.ServerPort, context.ClearHandler(http.DefaultServeMux))
-	if e != nil {
-		fmt.Println(e.Error())
-		panic("Не удалось запустить сервер")
+	err := http.ListenAndServe(database.Cfg.ServerHost+":"+database.Cfg.ServerPort, context.ClearHandler(http.DefaultServeMux))
+	if err != nil {
+		return err
 	}
+	return nil
 }

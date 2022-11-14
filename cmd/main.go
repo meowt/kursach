@@ -3,17 +3,26 @@ package main
 import (
 	"Kursach/pkg/database"
 	"Kursach/pkg/handler"
-	"fmt"
+	"Kursach/pkg/service"
+	"log"
 )
 
 func main() {
+	//Logging initialisation
+	err := service.LogInit()
+	if err != nil {
+		log.Fatal(err.Error() + "\nLogging init error")
+	}
+
 	//Connecting to Postgres
-	e := database.Connect()
-	if e != nil {
-		fmt.Println(e.Error() + "\n Db connect error")
+	err = database.Connect()
+	if err != nil {
+		log.Fatal(err.Error() + "\nDb connect error")
 	}
 
 	//Starting handling http requests
-	handler.Server()
-
+	err = handler.Server()
+	if err != nil {
+		log.Fatal(err.Error() + "\nServer starting error")
+	}
 }

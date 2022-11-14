@@ -14,6 +14,7 @@ require (
 )
 
 require (
+	github.com/golang-jwt/jwt/v4 v4.4.2 // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
 	github.com/jackc/fake v0.0.0-20150926172116-812a484cc733 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect
