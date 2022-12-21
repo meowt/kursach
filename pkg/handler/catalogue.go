@@ -1,7 +1,10 @@
 package handler
 
 import (
-	"Kursach/pkg/database"
+	"Diploma/pkg/auth"
+	"Diploma/pkg/database"
+	error2 "Diploma/pkg/error"
+	"Diploma/server"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -9,22 +12,22 @@ import (
 
 func Catalogue(w http.ResponseWriter, r *http.Request) {
 	//Session start
-	session, e := store.Get(r, "session-name")
-	errorProc(w, e, "Session start error")
+	session, e := server.store.Get(r, "session-name")
+	error2.errorProc(w, e, "Session start error")
 
 	//Session expiring update
-	if AuthCheck(session) {
-		UpdateSession(session, w, r)
+	if auth.AuthCheck(session) {
+		auth.UpdateSession(session, w, r)
 	} else {
 		//Redirecting not auth users
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 
 	lastThemes, e := database.GetLastThemes()
-	errorProc(w, e, "Getting user page data error")
+	error2.errorProc(w, e, "Getting user page data error")
 
 	meowtThemes, e := database.GetCreatorsThemes("MEOWT")
-	errorProc(w, e, "Getting user page data error")
+	error2.errorProc(w, e, "Getting user page data error")
 
 	//Parsing templates
 	t, e := template.ParseFiles(
@@ -33,7 +36,7 @@ func Catalogue(w http.ResponseWriter, r *http.Request) {
 		"./web/templates/catalogue.html",
 		"./web/templates/catMeowt.html",
 		"./web/templates/catHead.html")
-	errorProc(w, e, "Template parsing error")
+	error2.errorProc(w, e, "Template parsing error")
 
 	//Executing templates with db data
 	var headerData struct {
@@ -42,17 +45,17 @@ func Catalogue(w http.ResponseWriter, r *http.Request) {
 	headerData.Username = fmt.Sprint(session.Values["username"])
 
 	e = t.ExecuteTemplate(w, "trueHeader", headerData)
-	errorProc(w, e, "Template executing error")
+	error2.errorProc(w, e, "Template executing error")
 
 	e = t.ExecuteTemplate(w, "catHead", nil)
-	errorProc(w, e, "Template executing error")
+	error2.errorProc(w, e, "Template executing error")
 
 	e = t.ExecuteTemplate(w, "catalogue", lastThemes)
-	errorProc(w, e, "Template executing error")
+	error2.errorProc(w, e, "Template executing error")
 
 	e = t.ExecuteTemplate(w, "catMeowt", meowtThemes)
-	errorProc(w, e, "Template executing error")
+	error2.errorProc(w, e, "Template executing error")
 
 	e = t.ExecuteTemplate(w, "scripts", nil)
-	errorProc(w, e, "Template executing error")
+	error2.errorProc(w, e, "Template executing error")
 }

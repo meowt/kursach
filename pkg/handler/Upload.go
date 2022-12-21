@@ -1,7 +1,9 @@
 package handler
 
 import (
-	"Kursach/pkg/database"
+	"Diploma/pkg/database"
+	error2 "Diploma/pkg/error"
+	"Diploma/server"
 	"fmt"
 	"io"
 	"net/http"
@@ -18,11 +20,11 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 	themeData.Description.Valid = true
 	themeData.Description.String = r.FormValue("description")
 
-	session, e := store.Get(r, "session-name")
+	session, e := server.store.Get(r, "session-name")
 	themeData.CreatorName = fmt.Sprint(session.Values["username"])
 
 	file, _, e := r.FormFile("wallpaper")
-	errorProc(w, e, "Forming file error")
+	error2.errorProc(w, e, "Forming file error")
 	defer file.Close()
 
 	themeData.ID = database.GetLastThemeID() + 1
@@ -35,13 +37,13 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 
 	var osFile *os.File
 	osFile, e = os.CreateTemp(themeData.Path, "*.jpg")
-	errorProc(w, e, "Temping file error")
+	error2.errorProc(w, e, "Temping file error")
 
 	fileBytes, e := io.ReadAll(file)
-	errorProc(w, e, "Reading file error")
+	error2.errorProc(w, e, "Reading file error")
 
 	_, e = osFile.Write(fileBytes)
-	errorProc(w, e, "Writing file error")
+	error2.errorProc(w, e, "Writing file error")
 
 	osFile.Close()
 
@@ -56,7 +58,7 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 	themeData.ReleaseDate.Time = time.Now()
 	e = themeData.Save()
 	if e != nil {
-		errorProc(w, e, "Saving theme error")
+		error2.errorProc(w, e, "Saving theme error")
 	} else {
 		//correct part
 		http.Redirect(w, r, "/theme/"+strconv.Itoa(themeData.ID), http.StatusSeeOther)

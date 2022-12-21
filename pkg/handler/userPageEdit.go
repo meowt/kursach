@@ -1,19 +1,22 @@
 package handler
 
 import (
-	"Kursach/pkg/database"
+	"Diploma/pkg/auth"
+	"Diploma/pkg/database"
+	error2 "Diploma/pkg/error"
+	"Diploma/server"
 	"github.com/gorilla/mux"
 	"net/http"
 )
 
 func UserPageEdit(w http.ResponseWriter, r *http.Request) {
 	//Session start
-	session, e := store.Get(r, "session-name")
-	errorProc(w, e, "Session start error")
+	session, e := server.store.Get(r, "session-name")
+	error2.errorProc(w, e, "Session start error")
 
 	//Session expiring update
-	if AuthCheck(session) {
-		UpdateSession(session, w, r)
+	if auth.AuthCheck(session) {
+		auth.UpdateSession(session, w, r)
 	} else {
 		//Redirecting not auth users
 		http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -25,7 +28,7 @@ func UserPageEdit(w http.ResponseWriter, r *http.Request) {
 	//Getting info about current page
 	var pageOwner database.User
 	e = pageOwner.GetPageData(vars["username"])
-	errorProc(w, e, "Getting user page data error")
+	error2.errorProc(w, e, "Getting user page data error")
 
 	//Add edit page...
 	//...

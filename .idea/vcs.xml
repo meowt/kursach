@@ -2,24 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/gorilla/context" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/gorilla/mux" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/gorilla/securecookie" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/gorilla/sessions" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/jackc/chunkreader" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/jackc/pgconn" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/jackc/pgio" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/jackc/pgpassfile" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/jackc/pgproto3" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/jackc/pgservicefile" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/jackc/pgtype" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/jackc/pgx" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/jackc/puddle" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/jmoiron/sqlx" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/lib/pq" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/x/crypto" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/x/net" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/x/sys" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/x/text" vcs="Git" />
   </component>
 </project>

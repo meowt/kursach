@@ -1,0 +1,18 @@
+services:
+  diploma:
+    build: ./
+    command: ./diploma
+    ports:
+      - 9090:9090
+    depends_on:
+      - db_auth
+
+  db_auth:
+    container_name: db_auth
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=nymph
+      - POSTGRES_PASSWORD=nymph_pwd
+      - POSTGRES_DB=nymph_db

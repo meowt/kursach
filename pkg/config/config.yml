@@ -1,0 +1,44 @@
+server:
+  address: "127.0.0.1:9090"
+
+yadisk:
+  oauth: "OAuth y0_AgAAAAAXKuN7AAjmwgAAAADXTygCenYKHvlQSs2muIaj3Nc_nA2cT1E"
+
+auth:
+  hash_salt: "hash_salt"
+  access_signing_key: "super_secret_access_signing_key"
+  refresh_signing_key: "refresh_signing_key"
+  access_token_ttl: 600 # 10 min
+  refresh_token_ttl: 604800 # 7 day
+
+web:
+  ServerHost: "127.0.0.1"
+  ServerPort: "9090"
+  Html: "./web/templates/"
+  Assets: "./web/assets/"
+
+postgres:
+  postgresDsn: "host=localhost port=5432 user=nymph password=nymph_pwd dbname=nymph_db sslmode=disable"
+  deployment:
+    createUserTable:
+      "CREATE TABLE IF NOT EXISTS public.users ();
+      ALTER TABLE public.users 
+      ADD COLUMN IF NOT EXISTS id serial PRIMARY KEY,
+      ADD COLUMN IF NOT EXISTS created_at timestamp with time zone DEFAULT current_timestamp,      
+      ADD COLUMN IF NOT EXISTS deleted_at timestamp with time zone,
+      ADD COLUMN IF NOT EXISTS updated_at timestamp with time zone,
+      ADD COLUMN IF NOT EXISTS username varchar(50) NOT NULL,
+      ADD COLUMN IF NOT EXISTS firstname varchar(50),
+      ADD COLUMN IF NOT EXISTS lastname varchar(50),
+      ADD COLUMN IF NOT EXISTS email varchar(100) UNIQUE NOT NULL,
+      ADD COLUMN IF NOT EXISTS password varchar(100) NOT NULL"
+    createThemeTable:
+      "CREATE TABLE IF NOT EXISTS public.themes ();
+      ALTER TABLE public.themes 
+      ADD COLUMN IF NOT EXISTS id serial PRIMARY KEY,
+      ADD COLUMN IF NOT EXISTS created_at timestamp with time zone DEFAULT current_timestamp,      
+      ADD COLUMN IF NOT EXISTS deleted_at timestamp with time zone,
+      ADD COLUMN IF NOT EXISTS updated_at timestamp with time zone,
+      ADD COLUMN IF NOT EXISTS creator_id integer REFERENCES users (id),
+      ADD COLUMN IF NOT EXISTS url varchar(200),
+      ADD COLUMN IF NOT EXISTS description text"

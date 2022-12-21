@@ -1,6 +1,8 @@
 package handler
 
 import (
+	error2 "Diploma/pkg/error"
+	"Diploma/server"
 	"fmt"
 	"io"
 	"net/http"
@@ -11,10 +13,10 @@ import (
 func avatar(w http.ResponseWriter, r *http.Request) {
 	_ = r.ParseMultipartForm(64)
 	file, _, e := r.FormFile("avatar")
-	errorProc(w, e, "Forming file error")
+	error2.errorProc(w, e, "Forming file error")
 	defer file.Close()
 
-	session, e := store.Get(r, "session-name")
+	session, e := server.store.Get(r, "session-name")
 	OwnerName := fmt.Sprint(session.Values["username"])
 
 	path := fmt.Sprintf("./web/user_files/%s", OwnerName)
@@ -25,13 +27,13 @@ func avatar(w http.ResponseWriter, r *http.Request) {
 
 	var osFile *os.File
 	osFile, e = os.CreateTemp(path, "*.jpg")
-	errorProc(w, e, "Temping file error")
+	error2.errorProc(w, e, "Temping file error")
 
 	fileBytes, e := io.ReadAll(file)
-	errorProc(w, e, "Reading file error")
+	error2.errorProc(w, e, "Reading file error")
 
 	_, e = osFile.Write(fileBytes)
-	errorProc(w, e, "Writing file error")
+	error2.errorProc(w, e, "Writing file error")
 
 	osFile.Close()
 
@@ -44,7 +46,7 @@ func avatar(w http.ResponseWriter, r *http.Request) {
 	path = fmt.Sprintf("/user_files/%s", OwnerName)
 
 	if e != nil {
-		errorProc(w, e, "Saving theme error")
+		error2.errorProc(w, e, "Saving theme error")
 	} else {
 		//correct part
 		http.Redirect(w, r, "/user/"+OwnerName, http.StatusSeeOther)
