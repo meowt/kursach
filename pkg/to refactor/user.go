@@ -1,4 +1,4 @@
-package database
+package to_refactor
 
 //type User struct {
 //	ID          int            `json:"id"`

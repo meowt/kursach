@@ -1,15 +1,15 @@
 package handler
 
 import (
-	"Diploma/pkg/auth"
 	error2 "Diploma/pkg/error"
+	"Diploma/pkg/to refactor/auth"
 	"Diploma/server"
 	"fmt"
 	"html/template"
 	"net/http"
 )
 
-func ThemeUploadPage(w http.ResponseWriter, r *http.Request) {
+func profEdit(w http.ResponseWriter, r *http.Request) {
 	//Session start
 	session, e := server.store.Get(r, "session-name")
 	error2.errorProc(w, e, "Session start error")
@@ -26,7 +26,7 @@ func ThemeUploadPage(w http.ResponseWriter, r *http.Request) {
 	t, e := template.ParseFiles(
 		"./web/templates/scripts.html",
 		"./web/templates/trueHeader.html",
-		"./web/templates/uploadPage.html")
+		"./web/templates/profEditPage.html")
 	error2.errorProc(w, e, "Template parsing error")
 
 	//Executing templates with db data
@@ -38,7 +38,7 @@ func ThemeUploadPage(w http.ResponseWriter, r *http.Request) {
 	e = t.ExecuteTemplate(w, "trueHeader", headerData)
 	error2.errorProc(w, e, "Template executing error")
 
-	e = t.ExecuteTemplate(w, "uploadPage", nil)
+	e = t.ExecuteTemplate(w, "profEditPage", nil)
 	error2.errorProc(w, e, "Template executing error")
 
 	e = t.ExecuteTemplate(w, "scripts", nil)

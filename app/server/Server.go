@@ -21,6 +21,7 @@ func SetupGinRouter(handlers modules.HandlerModule) *gin.Engine {
 		gin.Logger(),
 	)
 	handlers.UserHandler.InitUserRoutes(router)
+	handlers.ThemeHandler.InitThemeRoutes(router)
 
 	return router
 }

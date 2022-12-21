@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"Diploma/pkg/auth"
 	"Diploma/pkg/database"
 	error2 "Diploma/pkg/error"
+	"Diploma/pkg/to refactor/auth"
 	"Diploma/server"
 	"fmt"
 	"github.com/gorilla/mux"
